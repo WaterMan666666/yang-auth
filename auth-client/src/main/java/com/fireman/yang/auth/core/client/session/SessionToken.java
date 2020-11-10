@@ -3,6 +3,10 @@ package com.fireman.yang.auth.core.client.session;
 import com.fireman.yang.auth.core.common.Token;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * @author tongdong
  * @Date: 2020/6/9
@@ -15,6 +19,7 @@ public class SessionToken implements Token {
 
     /** token的类型 */
     private SessionType type;
+
 
     public SessionToken(String token, SessionType type) {
         this.token = token;
@@ -32,5 +37,9 @@ public class SessionToken implements Token {
 
     public void setType(SessionType type) {
         this.type = type;
+    }
+
+    public void  afterLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
     }
 }

@@ -1,12 +1,8 @@
 package com.fireman.yang.auth.client.config;
 
-import com.fireman.yang.auth.core.client.AuthClientManager;
-import com.fireman.yang.auth.core.client.ClientSessionDao;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.eunms.AuthFilterEnum;
 import com.fireman.yang.auth.core.client.filter.AuthFilter;
-import com.fireman.yang.auth.core.client.session.processor.AccessTokenProcessor;
-import com.fireman.yang.auth.core.client.session.processor.CookieTokenProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

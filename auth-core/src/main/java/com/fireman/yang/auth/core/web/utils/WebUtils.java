@@ -40,6 +40,11 @@ public class WebUtils {
         return normalize(decodeAndCleanUriString(request, uri));
     }
 
+    public static String getRequestParam(HttpServletRequest request, String key) {
+        String parameter = request.getParameter(key);
+        return parameter;
+    }
+
     private static String valueOrEmpty(String input) {
         if (input == null) {
             return "";

@@ -50,6 +50,8 @@ public class AuthConfigruationProperties {
     /** 过滤器链条 */
     private List<String> filters;
 
+    /** 用户文件信息 */
+    private String userInfoPath;
 
     @PostConstruct
     public void check(){
@@ -65,7 +67,7 @@ public class AuthConfigruationProperties {
         }
         LoginScop scop = LoginScop.toEnum(this.scop);
         if(scop == null){
-            scop = LoginScop.Singleton;
+            scop = LoginScop.singleton;
         }
         if(sessionExpire == null){
             sessionExpire = AuthConstants.SESSION_EXPIRE_DEFAULT;
@@ -151,5 +153,13 @@ public class AuthConfigruationProperties {
 
     public void setLoginUrl(String loginUrl) {
         this.loginUrl = loginUrl;
+    }
+
+    public String getUserInfoPath() {
+        return userInfoPath;
+    }
+
+    public void setUserInfoPath(String userInfoPath) {
+        this.userInfoPath = userInfoPath;
     }
 }

@@ -6,6 +6,14 @@ import com.fireman.yang.auth.core.client.SessionTokenFactory;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.eunms.AuthFilterEnum;
 import com.fireman.yang.auth.core.client.session.SessionToken;
+import com.fireman.yang.auth.core.common.ThreadContext;
+import com.fireman.yang.auth.core.common.constants.AuthConstants;
+import com.fireman.yang.auth.core.common.enums.RequestMethod;
+import com.fireman.yang.auth.core.login.LoginToken;
+import com.fireman.yang.auth.core.login.LoginTokenFactory;
+import com.fireman.yang.auth.core.web.utils.StringUtils;
+import com.fireman.yang.auth.core.web.utils.WebUtils;
+import com.fireman.yang.auth.core.web.utils.json.JsonUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,6 +22,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @author tongdong
@@ -27,6 +36,8 @@ public class AuthenticationFilter extends AbstractPathFilter {
         this.loginUrl = config.getLoginUrl();
         this.clientManager = clientManager;
         this.sessionTokenFactory = config.getSessionTokenFactory();
+        this.sessionTokenFactory = config.getSessionTokenFactory();
+        this.loginTokenFactory = config.getLoginTokenFactory();
     }
 
     private String loginUrl;
@@ -35,15 +46,18 @@ public class AuthenticationFilter extends AbstractPathFilter {
 
     private SessionTokenFactory sessionTokenFactory;
 
+    private LoginTokenFactory loginTokenFactory;
+
     /**
      * 执行业务逻辑
      */
     @Override
     protected void doHandler(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         if(checkLoginPath(httpServletRequest)){
-            //登录页的请求,执行原始的Filter,放行
-            continueOriginChain(filterChain);
+            //处理登录的情况
+            dealLogin(httpServletRequest, httpServletResponse, filterChain);
             return;
         }
 
@@ -62,7 +76,11 @@ public class AuthenticationFilter extends AbstractPathFilter {
     private boolean isAuthenticate(HttpServletRequest httpServletRequest){
         SessionToken sessionToken = sessionTokenFactory.generateSessionToken(httpServletRequest);
         Session session = clientManager.checkLogin(sessionToken);
-        return session != null;
+        if(session != null) {
+            ThreadContext.put(AuthConstants.AUTH_SESSION_TOKEN, sessionToken);
+            return true;
+        }
+        return false;
     }
 
     protected void unAuthenticate(ServletRequest request, ServletResponse response) throws IOException {
@@ -73,4 +91,27 @@ public class AuthenticationFilter extends AbstractPathFilter {
         //handler
         continueChain(request, false);
     }
+
+
+    protected void dealLogin(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException {
+        String method = httpServletRequest.getMethod();
+         RequestMethod requestMethod = RequestMethod.toEnum(method);
+        if(requestMethod != null) {
+            switch (requestMethod){
+                case GET:
+                    //登录页的请求,执行原始的Filter,放行
+                    continueOriginChain(filterChain);
+                    break;
+                case POST:
+                    LoginToken loginToken = loginTokenFactory.generateLoginToken(httpServletRequest);
+                    SessionToken sessionToken = clientManager.login(loginToken);
+                    sessionToken.afterLogin(httpServletRequest, httpServletResponse);
+                    continueChain(httpServletRequest, false);
+                    break;
+                default:
+                    continueChain(httpServletRequest, false);
+            }
+        }
+    }
+
 }

@@ -12,15 +12,22 @@ public class AuthConstants {
     public static final String AUTHORIZATION = "Authorization";
     public static final String AUTHORIZATION_PERMISSION = "AuthorizationPermission";
     public static final String BEARER = "Bearer ";
+    public static final String ORIGIN_URL = "originUrl";
+
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String CODE = "code";
+    public static final String LOGIN_TYPE = "loginType";
 
 
+    public static final String AUTH_SESSION_TOKEN = "AUTH_SESSION_TOKEN";
     public static final String SESSION_TYPE_TOKEN = "TOKEN";
     public static final String SESSION_TYPE_COOKIE = "COOKIE";
 
     /** 授权模式：授权码 */
     public static final String GRANT_TYPE_CODE = "authorization_code";
 
-    /** Redis图片验证码标识 */
+    /** 缓存码标识 */
     public static final String UCENTER = "UCENTER";
 
     public static final String AUTH = "AUTH";

@@ -15,4 +15,5 @@ public class AuthClientWebStarter {
     public static void main(String[] args) {
         SpringApplication.run(AuthClientWebStarter.class, args);
     }
+
 }

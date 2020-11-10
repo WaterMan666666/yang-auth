@@ -12,9 +12,10 @@ import com.fireman.yang.auth.core.common.enums.SessionType;
 public abstract class LoginToken implements Token {
 
 
-    private SessionType sessionType;
+    private SessionType sessionType = SessionType.AccessToken;
 
-    public LoginToken() {
+    public LoginToken(SessionType sessionType) {
+        this.sessionType = sessionType;
     }
 
 

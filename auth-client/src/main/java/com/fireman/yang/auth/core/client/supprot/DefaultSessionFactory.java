@@ -4,6 +4,8 @@ import com.fireman.yang.auth.core.User;
 import com.fireman.yang.auth.core.client.Session;
 import com.fireman.yang.auth.core.client.SessionFactory;
 
+import java.util.UUID;
+
 /**
  * @author tongdong
  * @Date: 2020/11/6
@@ -12,6 +14,10 @@ import com.fireman.yang.auth.core.client.SessionFactory;
 public class DefaultSessionFactory implements SessionFactory {
     @Override
     public Session generateSession(User user) {
-        return null;
+        DefaultSession defaultSession = new DefaultSession();
+        defaultSession.setUser(user);
+        defaultSession.setId(UUID.randomUUID().toString().replaceAll("-",""));
+        defaultSession.setAttribute("123","123");
+        return defaultSession;
     }
 }

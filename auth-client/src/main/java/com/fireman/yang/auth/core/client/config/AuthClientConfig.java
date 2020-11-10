@@ -5,6 +5,7 @@ import com.fireman.yang.auth.core.client.SessionFactory;
 import com.fireman.yang.auth.core.client.SessionTokenFactory;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
+import com.fireman.yang.auth.core.login.LoginTokenFactory;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
 
 import javax.servlet.Filter;
@@ -18,7 +19,10 @@ import java.util.Map;
  */
 public class AuthClientConfig {
 
-    public AuthClientConfig(List<String> filters, Map<String, List<String>> mapping, ClientSessionDao sessionDao, LoginScop scop, Integer sessionExpire, String clientId, List<SessionTokenProcessor> sessionTokenProcessors, List<LoginTokenProcessor> loginTokenProcessors, SessionFactory sessionFactory, SessionTokenFactory sessionTokenFactory, String loginUrl) {
+    public AuthClientConfig(List<String> filters, Map<String, List<String>> mapping, ClientSessionDao sessionDao,
+                            LoginScop scop, Integer sessionExpire, String clientId, List<SessionTokenProcessor> sessionTokenProcessors,
+                            List<LoginTokenProcessor> loginTokenProcessors, SessionFactory sessionFactory,
+                            SessionTokenFactory sessionTokenFactory,LoginTokenFactory loginTokenFactory, String loginUrl) {
         this.filters = filters;
         this.mapping = mapping;
         this.sessionDao = sessionDao;
@@ -29,6 +33,7 @@ public class AuthClientConfig {
         this.loginTokenProcessors = loginTokenProcessors;
         this.sessionFactory = sessionFactory;
         this.sessionTokenFactory = sessionTokenFactory;
+        this.loginTokenFactory = loginTokenFactory;
         this.loginUrl = loginUrl;
     }
 
@@ -51,6 +56,8 @@ public class AuthClientConfig {
     private SessionFactory sessionFactory;
 
     private SessionTokenFactory sessionTokenFactory;
+
+    private LoginTokenFactory loginTokenFactory;
 
     private String loginUrl;
 
@@ -140,5 +147,13 @@ public class AuthClientConfig {
 
     public void setMapping(Map<String, List<String>> mapping) {
         this.mapping = mapping;
+    }
+
+    public LoginTokenFactory getLoginTokenFactory() {
+        return loginTokenFactory;
+    }
+
+    public void setLoginTokenFactory(LoginTokenFactory loginTokenFactory) {
+        this.loginTokenFactory = loginTokenFactory;
     }
 }

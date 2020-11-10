@@ -4,6 +4,7 @@ import com.fireman.yang.auth.core.*;
 import com.fireman.yang.auth.core.client.*;
 import com.fireman.yang.auth.core.client.session.SessionToken;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
+import com.fireman.yang.auth.core.common.ThreadContext;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.login.LoginToken;
@@ -81,7 +82,7 @@ public abstract class AbstractAuthClientManager implements AuthClientManager {
      * 检查登录信息
      */
     protected void checkLoginInfo(LoginToken token){
-
+        ThreadContext.get("");
     }
 
     /**
@@ -89,7 +90,7 @@ public abstract class AbstractAuthClientManager implements AuthClientManager {
      */
     protected Session createSession(SessionType sessionType, User loginUser){
         //根据scop来判断完成哪种模式
-        if(LoginScop.Singleton.equals(scop)){
+        if(LoginScop.singleton.equals(scop)){
             //需要清除当前用户所有实例
             destroySession(loginUser);
         }

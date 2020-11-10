@@ -6,6 +6,7 @@ import com.fireman.yang.auth.core.client.*;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.dao.DefaultLocalSessionDao;
 import com.fireman.yang.auth.core.client.eunms.AuthFilterEnum;
+import com.fireman.yang.auth.core.client.service.LocalAuthServiceImpl;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
 import com.fireman.yang.auth.core.client.session.processor.AccessTokenProcessor;
 import com.fireman.yang.auth.core.client.session.processor.CookieTokenProcessor;
@@ -13,8 +14,11 @@ import com.fireman.yang.auth.core.client.supprot.DefaultSessionFactory;
 import com.fireman.yang.auth.core.client.supprot.DefaultSessionTokenFactory;
 import com.fireman.yang.auth.core.client.supprot.SingletonAuthClientManager;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
+import com.fireman.yang.auth.core.login.DefaultLoginTokenFactory;
+import com.fireman.yang.auth.core.login.LoginTokenFactory;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
 import com.fireman.yang.auth.core.login.PwdTokenProcessor;
+import com.fireman.yang.auth.core.service.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -49,30 +53,47 @@ public class AuthConfig {
     private static final  Logger log = LoggerFactory.getLogger(AuthConfig.class);
 
 
+    @Bean
+    @ConditionalOnMissingBean(AuthService.class)
+    public AuthService authService(AuthConfigruationProperties authProperties){
+        return new LocalAuthServiceImpl(authProperties.getUserInfoPath());
+    }
+
 
     @Bean
+    @ConditionalOnMissingBean(AccessTokenProcessor.class)
     public AccessTokenProcessor accessTokenProcessor(ClientSessionDao sessionDao){
         return new AccessTokenProcessor(sessionDao);
     }
 
     @Bean
+    @ConditionalOnMissingBean(CookieTokenProcessor.class)
     public CookieTokenProcessor cookieTokenProcessor(ClientSessionDao sessionDao){
         return new CookieTokenProcessor(sessionDao);
     }
 
     @Bean
-    public PwdTokenProcessor pwdTokenProcessor(){
-        return new PwdTokenProcessor();
+    @ConditionalOnMissingBean(LoginTokenFactory.class)
+    public LoginTokenFactory loginTokenFactory(){
+        return new DefaultLoginTokenFactory();
     }
 
     @Bean
+    @ConditionalOnMissingBean(PwdTokenProcessor.class)
+    public PwdTokenProcessor pwdTokenProcessor(AuthService authService){
+        return new PwdTokenProcessor(authService);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DefaultSessionFactory.class)
     public DefaultSessionFactory sessionFactory(){
         return new DefaultSessionFactory();
     }
 
     @Bean
-    public DefaultSessionTokenFactory sessionTokenFactory(){
-        return new DefaultSessionTokenFactory();
+    @ConditionalOnMissingBean(DefaultSessionTokenFactory.class)
+    public DefaultSessionTokenFactory sessionTokenFactory(AuthConfigruationProperties authProperties){
+        return new DefaultSessionTokenFactory(authProperties.getClientId());
     }
 
 
@@ -89,16 +110,18 @@ public class AuthConfig {
                                              List<SessionTokenProcessor> sessionTokenProcessors,
                                              List<LoginTokenProcessor> loginTokenProcessors,
                                              SessionFactory sessionFactory,
+                                             LoginTokenFactory loginTokenFactory,
                                              SessionTokenFactory sessionTokenFactory
     ){
        return new AuthClientConfig(authProperties.getFilters(), authProperties.getMapping(),
                sessionDao, LoginScop.toEnum(authProperties.getScop()),
                authProperties.getSessionExpire(), authProperties.getClientId(),
                sessionTokenProcessors, loginTokenProcessors, sessionFactory,
-               sessionTokenFactory, authProperties.getLoginUrl());
+               sessionTokenFactory, loginTokenFactory, authProperties.getLoginUrl());
     }
 
     @Bean
+    @ConditionalOnMissingBean(AuthClientManager.class)
     public AuthClientManager authClientManager(AuthClientConfig config){
         return new SingletonAuthClientManager(config);
     }

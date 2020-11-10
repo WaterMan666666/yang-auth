@@ -16,7 +16,7 @@ public class SingletonAuthClientManager extends AbstractAuthClientManager {
     public SingletonAuthClientManager(AuthClientConfig config){
         super(config.getScop(), config.getSessionTokenProcessors(), config.getLoginTokenProcessors(),
                 config.getSessionFactory(), config.getSessionTokenFactory(),
-                new DefaultLocalSessionDao(config.getClientId(), config.getSessionExpire()));
+                config.getSessionDao());
     }
 
     @Override

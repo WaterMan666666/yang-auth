@@ -41,7 +41,7 @@ public abstract class AbstractSessionDao implements ClientSessionDao {
     protected abstract String getSeparator();
 
     protected  String getSessionKey(SessionType sessionType, String id){
-        return getKey(AuthConstants.UCENTER, AuthConstants.SESSION,
+         return getKey(AuthConstants.UCENTER, AuthConstants.SESSION,
                 clientId, sessionType.name(), id);
     }
 

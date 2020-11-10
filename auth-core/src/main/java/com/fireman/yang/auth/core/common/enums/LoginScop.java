@@ -8,9 +8,9 @@ package com.fireman.yang.auth.core.common.enums;
 public enum LoginScop {
 
     /**同一个用户登录仅能存在一个session实例*/
-    Singleton,
+    singleton,
     /**同一个用户登录能存在多个session实例*/
-    Prototype;
+    prototype;
 
     public static LoginScop toEnum(String code) {
         for (LoginScop item : LoginScop.values()) {

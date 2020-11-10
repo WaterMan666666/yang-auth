@@ -35,7 +35,7 @@ public class DefaultSession implements Session {
 
     @Override
     public void setAttribute(String key, Object value) {
-        map.put(AuthConstants.AUTH_ID, value);
+        map.put(key, value);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class DefaultSession implements Session {
 
     @Override
     public User getUser() {
-        Object o = map.get(AuthConstants.AUTH_ID);
+        Object o = map.get(AuthConstants.AUTH_USER);
         if(o == null){
             return null;
         }

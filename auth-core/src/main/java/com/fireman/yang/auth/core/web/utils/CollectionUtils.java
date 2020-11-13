@@ -25,4 +25,10 @@ public class CollectionUtils {
     public static int size(Map m) {
         return m != null ? m.size() : 0;
     }
+
+    public static void putString(Map<String, String> params, String k , String v) {
+        if (StringUtils.isNotBlank(v) && StringUtils.isNotBlank(k)) {
+            params.put(k, v);
+        }
+    }
 }

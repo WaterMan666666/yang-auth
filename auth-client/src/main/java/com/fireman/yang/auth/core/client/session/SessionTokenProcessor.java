@@ -1,19 +1,20 @@
 package com.fireman.yang.auth.core.client.session;
 
 
-import com.fireman.yang.auth.core.client.Session;
-import com.fireman.yang.auth.core.common.TokenProcessor;
+import com.fireman.yang.auth.core.common.Processor;
+import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.session.SessionToken;
 
 /**
  * @author tongdong
  * @Date: 2020/6/10
  * @Description:
  */
-public abstract class SessionTokenProcessor<T extends SessionToken> implements TokenProcessor<T> {
+public abstract class SessionTokenProcessor implements Processor<SessionToken> {
 
 
     /**
      * 验证toke并获取Session信息
      */
-    public abstract Session parseToken(T token);
+    public abstract Session parseToken(SessionToken token);
 }

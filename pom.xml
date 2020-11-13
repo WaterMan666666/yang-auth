@@ -11,6 +11,7 @@
 
     <properties>
         <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+        <okhttp3.version>3.11.0</okhttp3.version>
     </properties>
 
     <dependencyManagement>
@@ -36,6 +37,9 @@
         <module>auth-client</module>
         <module>auth-server</module>
         <module>auth-client-spring</module>
+        <module>auth-server-spring</module>
+        <module>auth-client-spring-strater</module>
+        <module>auth-server-spring-strater</module>
     </modules>
 
     <build>

@@ -1,17 +1,18 @@
 package com.fireman.yang.auth.core.client.session.processor;
 
 import com.fireman.yang.auth.core.client.ClientSessionDao;
-import com.fireman.yang.auth.core.client.Session;
 import com.fireman.yang.auth.core.client.session.CookieToken;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
 import com.fireman.yang.auth.core.common.Token;
+import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.session.SessionToken;
 
 /**
  * @author tongdong
  * @Date: 2020/6/10
  * @Description:
  */
-public class CookieTokenProcessor extends SessionTokenProcessor<CookieToken> {
+public class CookieTokenProcessor extends SessionTokenProcessor{
 
     public CookieTokenProcessor(ClientSessionDao sessionDao) {
         this.sessionDao = sessionDao;
@@ -20,12 +21,12 @@ public class CookieTokenProcessor extends SessionTokenProcessor<CookieToken> {
     private ClientSessionDao sessionDao;
 
     @Override
-    public Session parseToken(CookieToken token) {
+    public Session parseToken(SessionToken token) {
         return sessionDao.readSession(token.getType(), token.getToken());
     }
 
     @Override
-    public boolean isTypeMatch(Token token) {
+    public boolean isTypeMatch(SessionToken token) {
         return token instanceof CookieToken;
     }
 

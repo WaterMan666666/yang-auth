@@ -56,4 +56,11 @@ public class AuthConstants {
 
     /** 默认session时间：30分钟 */
     public static final Integer SESSION_EXPIRE_DEFAULT = 30 * 60;
+
+    /** 成功标识常量（系统内部使用） */
+    public static final String COMMON_SUCCESS = "success";
+    /** HTTP_REQUEST 的标识 */
+    public static final String AUTH_HTTP_REQUEST = "AUTH_HTTP_REQUEST";
+    /** HTTP_RESPONSE 的标识 */
+    public static final String AUTH_HTTP_RESPONSE = "AUTH_HTTP_RESPONSE";
 }

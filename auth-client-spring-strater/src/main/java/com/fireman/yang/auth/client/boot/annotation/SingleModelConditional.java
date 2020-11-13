@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.boot.annotation;
+package com.fireman.yang.auth.client.boot.annotation;
 
 import com.fireman.yang.auth.core.client.eunms.AuthModel;
 import org.springframework.context.annotation.Condition;

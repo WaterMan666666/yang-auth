@@ -1,19 +1,16 @@
 package com.fireman.yang.auth.core.client.filter;
 
 import com.fireman.yang.auth.core.client.AuthClientManager;
-import com.fireman.yang.auth.core.client.Session;
-import com.fireman.yang.auth.core.client.SessionTokenFactory;
+import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.session.SessionToken;
+import com.fireman.yang.auth.session.SessionTokenFactory;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.eunms.AuthFilterEnum;
-import com.fireman.yang.auth.core.client.session.SessionToken;
 import com.fireman.yang.auth.core.common.ThreadContext;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.RequestMethod;
 import com.fireman.yang.auth.core.login.LoginToken;
 import com.fireman.yang.auth.core.login.LoginTokenFactory;
-import com.fireman.yang.auth.core.web.utils.StringUtils;
-import com.fireman.yang.auth.core.web.utils.WebUtils;
-import com.fireman.yang.auth.core.web.utils.json.JsonUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,7 +19,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @author tongdong
@@ -74,7 +70,8 @@ public class AuthenticationFilter extends AbstractPathFilter {
     }
 
     private boolean isAuthenticate(HttpServletRequest httpServletRequest){
-        SessionToken sessionToken = sessionTokenFactory.generateSessionToken(httpServletRequest);
+        SessionToken sessionToken = null;
+//        SessionToken sessionToken = sessionTokenFactory.generateSessionToken(httpServletRequest);
         Session session = clientManager.checkLogin(sessionToken);
         if(session != null) {
             ThreadContext.put(AuthConstants.AUTH_SESSION_TOKEN, sessionToken);

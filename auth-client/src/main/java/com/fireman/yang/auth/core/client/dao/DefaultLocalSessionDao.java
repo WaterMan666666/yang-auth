@@ -1,11 +1,11 @@
 package com.fireman.yang.auth.core.client.dao;
 
 import com.fireman.yang.auth.core.User;
-import com.fireman.yang.auth.core.client.Session;
 import com.fireman.yang.auth.core.client.SingletonClientSessionDao;
 import com.fireman.yang.auth.core.client.session.AbstractSessionDao;
-import com.fireman.yang.auth.core.client.session.SessionToken;
 import com.fireman.yang.auth.core.common.enums.SessionType;
+import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.session.SessionToken;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
@@ -84,5 +84,4 @@ public class DefaultLocalSessionDao extends AbstractSessionDao implements Single
         }
         userCache.invalidate(user);
     }
-
 }

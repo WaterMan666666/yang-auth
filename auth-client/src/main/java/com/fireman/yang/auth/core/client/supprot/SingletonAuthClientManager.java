@@ -3,6 +3,9 @@ package com.fireman.yang.auth.core.client.supprot;
 import com.fireman.yang.auth.core.User;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.dao.DefaultLocalSessionDao;
+import com.fireman.yang.auth.core.server.AuthServerManager;
+
+import java.util.List;
 
 
 /**
@@ -10,18 +13,28 @@ import com.fireman.yang.auth.core.client.dao.DefaultLocalSessionDao;
  * @Date: 2020/10/29
  * @Description:
  */
-public class SingletonAuthClientManager extends AbstractAuthClientManager {
+public class SingletonAuthClientManager extends AbstractAuthClientManager implements AuthServerManager {
 
 
-    public SingletonAuthClientManager(AuthClientConfig config){
+    public SingletonAuthClientManager(AuthClientConfig config) {
         super(config.getScop(), config.getSessionTokenProcessors(), config.getLoginTokenProcessors(),
                 config.getSessionFactory(), config.getSessionTokenFactory(),
                 config.getSessionDao());
     }
 
     @Override
-    protected void destroySession(User user) {
-        DefaultLocalSessionDao dao = (DefaultLocalSessionDao)sessionDao;
+    public List<User> getAllOlineUsers() {
+        return null;
+    }
+
+    @Override
+    public void logout(User user) {
+        DefaultLocalSessionDao dao = (DefaultLocalSessionDao) sessionDao;
         dao.destroySession(user);
+    }
+
+    @Override
+    protected void destroySession(User user) {
+        logout(user);
     }
 }

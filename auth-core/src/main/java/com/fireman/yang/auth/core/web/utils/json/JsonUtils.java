@@ -31,7 +31,6 @@ import java.util.List;
 public class JsonUtils {
 
     public static ObjectMapper objectMapper ;
-    public static ObjectMapper objectMapperSensitivity ;
 
 
     static {

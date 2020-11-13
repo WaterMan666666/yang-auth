@@ -24,7 +24,7 @@ public class PwdTokenProcessor extends LoginTokenProcessor<PasswordToken> {
     }
 
     @Override
-    public boolean isTypeMatch(Token token) {
+    public boolean isTypeMatch(PasswordToken token) {
         return token instanceof PasswordToken;
     }
 }

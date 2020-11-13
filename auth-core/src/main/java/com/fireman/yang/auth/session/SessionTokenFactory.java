@@ -1,9 +1,7 @@
-package com.fireman.yang.auth.core.client;
+package com.fireman.yang.auth.session;
 
 
-import com.fireman.yang.auth.core.client.session.SessionToken;
 import com.fireman.yang.auth.core.common.enums.SessionType;
-import com.fireman.yang.auth.core.login.LoginToken;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +15,7 @@ public interface SessionTokenFactory {
     /**
      * 创建会话的Token
      */
-    SessionToken generateSessionToken(HttpServletRequest request);
+    SessionToken generateSessionToken();
 
     /**
      * 创建会话的Token

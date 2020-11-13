@@ -1,8 +1,8 @@
 package com.fireman.yang.auth.core.client.supprot;
 
 import com.fireman.yang.auth.core.User;
-import com.fireman.yang.auth.core.client.Session;
-import com.fireman.yang.auth.core.client.SessionFactory;
+import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.session.SessionFactory;
 
 import java.util.UUID;
 

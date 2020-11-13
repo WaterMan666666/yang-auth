@@ -1,16 +1,15 @@
 package com.fireman.yang.auth.core.client.supprot;
 
-import com.fireman.yang.auth.core.client.Session;
-import com.fireman.yang.auth.core.client.SessionTokenFactory;
-import com.fireman.yang.auth.core.client.config.AuthClientConfig;
+import com.fireman.yang.auth.core.common.ThreadContext;
+import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.session.SessionToken;
+import com.fireman.yang.auth.session.SessionTokenFactory;
 import com.fireman.yang.auth.core.client.session.AccessToken;
 import com.fireman.yang.auth.core.client.session.CookieToken;
-import com.fireman.yang.auth.core.client.session.SessionToken;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.web.utils.CookieUtils;
 import com.fireman.yang.auth.core.web.utils.StringUtils;
-import com.fireman.yang.auth.core.web.utils.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +27,8 @@ public class DefaultSessionTokenFactory implements SessionTokenFactory {
     private String clientId;
 
     @Override
-    public SessionToken generateSessionToken(HttpServletRequest request) {
+    public SessionToken generateSessionToken() {
+        HttpServletRequest request = ThreadContext.getRequest();
         //获取AccessToken
         String accessToke = request.getHeader(AuthConstants.AUTHORIZATION);
         if(!StringUtils.isBlank(accessToke) && accessToke.length() > AuthConstants.BEARER.length()){

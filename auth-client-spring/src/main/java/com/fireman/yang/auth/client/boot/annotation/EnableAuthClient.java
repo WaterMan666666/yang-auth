@@ -1,6 +1,4 @@
-package com.fireman.yang.auth.client.annotation;
-
-import org.springframework.context.annotation.Import;
+package com.fireman.yang.auth.client.boot.annotation;
 
 import java.lang.annotation.*;
 

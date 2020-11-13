@@ -1,7 +1,7 @@
 package com.fireman.yang.auth.core.client;
 
-import com.fireman.yang.auth.core.client.session.SessionToken;
 import com.fireman.yang.auth.core.login.LoginToken;
+import com.fireman.yang.auth.session.SessionToken;
 
 /**
  * @author tongdong

@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.boot.config;
+package com.fireman.yang.auth.client.boot.config;
 
 import com.fireman.yang.auth.core.client.eunms.AuthModel;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
@@ -7,7 +7,6 @@ import com.fireman.yang.auth.core.web.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -22,9 +21,9 @@ import java.util.Map;
  */
 
 @ConfigurationProperties(prefix = "yang.auth.client")
-public class AuthConfigruationProperties {
+public class AuthClientConfigruationProperties {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthConfigruationProperties.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthClientConfigruationProperties.class);
 
     /** 是否开启 */
     private boolean enable;

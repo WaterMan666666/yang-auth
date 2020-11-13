@@ -5,11 +5,11 @@ package com.fireman.yang.auth.core.common;
  * @Date: 2020/6/9
  * @Description:
  */
-public interface TokenProcessor<T extends Token> {
+public interface Processor<T> {
 
 
     /**
      * 是否匹配类型
      */
-    boolean isTypeMatch(Token token);
+    boolean isTypeMatch(T t);
 }

@@ -1,9 +1,12 @@
 package com.fireman.yang.auth.core.common;
 
+import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.web.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,5 +77,24 @@ public class ThreadContext {
 
     public static void remove() {
         resources.remove();
+    }
+
+
+    public static HttpServletResponse getResponse(){
+        Object object = ThreadContext.get(AuthConstants.AUTH_HTTP_RESPONSE);
+        if(object != null && object instanceof HttpServletResponse) {
+            HttpServletResponse response = (HttpServletResponse) object;
+            return response;
+        }
+        return null;
+    }
+
+    public static HttpServletRequest getRequest(){
+        Object object = ThreadContext.get(AuthConstants.AUTH_HTTP_REQUEST);
+        if(object != null && object instanceof HttpServletRequest) {
+            HttpServletRequest request = (HttpServletRequest) object;
+            return request;
+        }
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.core.client.session;
+package com.fireman.yang.auth.session;
 
 import com.fireman.yang.auth.core.common.Token;
 import com.fireman.yang.auth.core.common.enums.SessionType;

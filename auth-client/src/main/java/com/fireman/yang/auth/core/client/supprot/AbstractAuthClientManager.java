@@ -2,13 +2,15 @@ package com.fireman.yang.auth.core.client.supprot;
 
 import com.fireman.yang.auth.core.*;
 import com.fireman.yang.auth.core.client.*;
-import com.fireman.yang.auth.core.client.session.SessionToken;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
-import com.fireman.yang.auth.core.common.ThreadContext;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.login.LoginToken;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
+import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.session.SessionFactory;
+import com.fireman.yang.auth.session.SessionToken;
+import com.fireman.yang.auth.session.SessionTokenFactory;
 
 import java.util.List;
 
@@ -82,7 +84,6 @@ public abstract class AbstractAuthClientManager implements AuthClientManager {
      * 检查登录信息
      */
     protected void checkLoginInfo(LoginToken token){
-        ThreadContext.get("");
     }
 
     /**

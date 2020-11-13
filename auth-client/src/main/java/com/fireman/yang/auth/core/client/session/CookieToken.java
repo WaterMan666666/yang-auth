@@ -6,6 +6,7 @@ import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.web.utils.CookieUtils;
 import com.fireman.yang.auth.core.web.utils.StringUtils;
 import com.fireman.yang.auth.core.web.utils.WebUtils;
+import com.fireman.yang.auth.session.SessionToken;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

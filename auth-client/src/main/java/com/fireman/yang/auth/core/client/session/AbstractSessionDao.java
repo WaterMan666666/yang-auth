@@ -1,9 +1,9 @@
 package com.fireman.yang.auth.core.client.session;
 
 import com.fireman.yang.auth.core.client.ClientSessionDao;
-import com.fireman.yang.auth.core.client.Session;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.SessionType;
+import com.fireman.yang.auth.session.Session;
 
 
 /**

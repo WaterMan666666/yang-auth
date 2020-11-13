@@ -3,6 +3,7 @@ package com.fireman.yang.auth.core.client.session;
 
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.web.utils.json.JsonUtils;
+import com.fireman.yang.auth.session.SessionToken;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

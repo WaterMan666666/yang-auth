@@ -1,25 +1,17 @@
 package com.fireman.yang.auth.server.controller;
 
-import com.fireman.yang.auth.core.common.enums.ResponseType;
 import com.fireman.yang.auth.core.login.LoginToken;
 import com.fireman.yang.auth.core.login.LoginTokenFactory;
 import com.fireman.yang.auth.core.server.AuthSsoServerManager;
-import com.fireman.yang.auth.core.server.dto.AppClientDTO;
-import com.fireman.yang.auth.core.server.dto.AuthorizeDTO;
-import com.fireman.yang.auth.core.server.service.AuthServiceService;
-import com.fireman.yang.auth.core.server.support.ResponseTypeProcessor;
-import com.fireman.yang.auth.session.SessionToken;
-import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * @author tongdong

@@ -29,7 +29,7 @@ public class AuthenticationFilter extends AbstractPathFilter {
 
     public AuthenticationFilter(AuthClientConfig config, AuthClientManager clientManager) {
         super(AuthFilterEnum.auth.name());
-        this.loginUrl = config.getLoginUrl();
+        this.loginUrl = config.getLoginUri();
         this.clientManager = clientManager;
         this.sessionTokenFactory = config.getSessionTokenFactory();
         this.sessionTokenFactory = config.getSessionTokenFactory();

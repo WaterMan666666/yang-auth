@@ -89,8 +89,6 @@ public class AuthClientConfigruationProperties {
                 if(StringUtils.isBlank(authTokenUri)){
                     authTokenUri = "/oauth/token";
                 }
-                break;
-            case single:
                 if(StringUtils.isBlank(clientId)){
                     log.error("sso model propertie < clientId > not exist");
                     throw new ParameterErrorException("clientId not exist ");
@@ -98,6 +96,11 @@ public class AuthClientConfigruationProperties {
                 if(StringUtils.isBlank(clientSecret)){
                     log.error("sso model propertie < clientSecret > not exist");
                     throw new ParameterErrorException("clientSecret not exist ");
+                }
+                break;
+            case single:
+                if(StringUtils.isBlank(clientSecret)){
+                    clientSecret = "Default";
                 }
                 break;
             default:

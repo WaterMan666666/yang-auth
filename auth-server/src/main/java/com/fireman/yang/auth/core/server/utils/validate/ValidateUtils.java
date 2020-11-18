@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.server.utils.validate;
+package com.fireman.yang.auth.core.server.utils.validate;
 
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.exception.ParameterErrorException;

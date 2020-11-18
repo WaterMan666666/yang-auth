@@ -7,7 +7,7 @@ import com.fireman.yang.auth.core.login.LoginToken;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
 import com.fireman.yang.auth.core.server.AuthSsoServerManager;
 import com.fireman.yang.auth.core.server.ServerSessionDao;
-import com.fireman.yang.auth.session.*;
+import com.fireman.yang.auth.core.session.*;
 
 import java.util.List;
 
@@ -36,10 +36,9 @@ public class DefaultAuthSsoServerManager extends AbstractAuthServerManager imple
         //检查信息
         checkLoginInfo(token);
         //判断LoginToken是否为有效Token
-        User loginUser = authenticate(token);
-        //登录的扩展处理
+        User user = authenticate(token);
         //创建session
-        Session session = createSession(loginUser);
+        Session session = createSession(user);
         //根据想要获取的token模式发送SessionToken
         return distributeSessionToken(token.getSessionType(), session);
     }

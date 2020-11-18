@@ -7,10 +7,10 @@ import com.fireman.yang.auth.core.common.enums.LoginScop;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.login.LoginToken;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
-import com.fireman.yang.auth.session.Session;
-import com.fireman.yang.auth.session.SessionFactory;
-import com.fireman.yang.auth.session.SessionToken;
-import com.fireman.yang.auth.session.SessionTokenFactory;
+import com.fireman.yang.auth.core.session.Session;
+import com.fireman.yang.auth.core.session.SessionFactory;
+import com.fireman.yang.auth.core.session.SessionToken;
+import com.fireman.yang.auth.core.session.SessionTokenFactory;
 
 import java.util.List;
 

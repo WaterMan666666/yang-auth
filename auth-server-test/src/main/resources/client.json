@@ -1,0 +1,9 @@
+[
+  {
+    "clientId" : "ucenter",
+    "clientName" : "用户中心",
+    "secretKey" : "123456",
+    "innerDomain" : "http://localhost:8080",
+    "domain" : "http://localhost:8080"
+  }
+]

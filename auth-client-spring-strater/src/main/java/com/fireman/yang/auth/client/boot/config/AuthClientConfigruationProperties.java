@@ -3,6 +3,7 @@ package com.fireman.yang.auth.client.boot.config;
 import com.fireman.yang.auth.core.client.eunms.AuthModel;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
+import com.fireman.yang.auth.core.exception.ParameterErrorException;
 import com.fireman.yang.auth.core.web.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +35,11 @@ public class AuthClientConfigruationProperties {
     /** 系统标识 */
     private String clientId;
 
+    /** 系统交互密钥 */
+    private String clientSecret;
+
     /** 登录URL */
-    private String loginUrl;
+    private String loginUri;
 
     /** 登录模式 */
     private String scop;
@@ -49,8 +53,13 @@ public class AuthClientConfigruationProperties {
     /** 过滤器链条 */
     private List<String> filters;
 
-    /** 用户文件信息 */
-    private String userInfoPath;
+    /** 文件信息的基类 */
+    private String infoBasePath;
+
+    String authDomain;
+
+    String authTokenUri;
+
 
     @PostConstruct
     public void check(){
@@ -61,8 +70,8 @@ public class AuthClientConfigruationProperties {
         if(StringUtils.isBlank(clientId)){
             clientId = "Default";
         }
-        if(StringUtils.isBlank(loginUrl)){
-            loginUrl = "/login";
+        if(StringUtils.isBlank(loginUri)){
+            loginUri = "/login";
         }
         LoginScop scop = LoginScop.toEnum(this.scop);
         if(scop == null){
@@ -70,6 +79,28 @@ public class AuthClientConfigruationProperties {
         }
         if(sessionExpire == null){
             sessionExpire = AuthConstants.SESSION_EXPIRE_DEFAULT;
+        }
+        switch (model){
+            case sso:
+                if(StringUtils.isBlank(authDomain)){
+                    log.error("sso model propertie < authDomain > not exist");
+                    throw new ParameterErrorException("authDomain not exist ");
+                }
+                if(StringUtils.isBlank(authTokenUri)){
+                    authTokenUri = "/oauth/token";
+                }
+                break;
+            case single:
+                if(StringUtils.isBlank(clientId)){
+                    log.error("sso model propertie < clientId > not exist");
+                    throw new ParameterErrorException("clientId not exist ");
+                }
+                if(StringUtils.isBlank(clientSecret)){
+                    log.error("sso model propertie < clientSecret > not exist");
+                    throw new ParameterErrorException("clientSecret not exist ");
+                }
+                break;
+            default:
         }
         //检查filter的逻辑是否正确
         if(filters == null){
@@ -82,7 +113,7 @@ public class AuthClientConfigruationProperties {
                     .allMatch(item -> list.contains(item));
             if(!allMatch){
                 log.error("mapping filter item not exist in filter list");
-                throw new RuntimeException("auth mapping filter not exist ");
+                throw new ParameterErrorException("auth mapping filter not exist ");
             }
         }else{
             mapping = new HashMap<>(0);
@@ -146,19 +177,45 @@ public class AuthClientConfigruationProperties {
         this.clientId = clientId;
     }
 
-    public String getLoginUrl() {
-        return loginUrl;
+    public String getClientSecret() {
+        return clientSecret;
     }
 
-    public void setLoginUrl(String loginUrl) {
-        this.loginUrl = loginUrl;
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 
-    public String getUserInfoPath() {
-        return userInfoPath;
+    public String getLoginUri() {
+        return loginUri;
     }
 
-    public void setUserInfoPath(String userInfoPath) {
-        this.userInfoPath = userInfoPath;
+    public void setLoginUri(String loginUri) {
+        this.loginUri = loginUri;
     }
+
+    public String getAuthDomain() {
+        return authDomain;
+    }
+
+    public void setAuthDomain(String authDomain) {
+        this.authDomain = authDomain;
+    }
+
+    public String getAuthTokenUri() {
+        return authTokenUri;
+    }
+
+    public void setAuthTokenUri(String authTokenUri) {
+        this.authTokenUri = authTokenUri;
+    }
+
+    public String getInfoBasePath() {
+        return infoBasePath;
+    }
+
+    public void setInfoBasePath(String infoBasePath) {
+        this.infoBasePath = infoBasePath;
+    }
+
+
 }

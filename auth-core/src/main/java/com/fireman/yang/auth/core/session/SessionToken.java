@@ -1,10 +1,11 @@
-package com.fireman.yang.auth.session;
+package com.fireman.yang.auth.core.session;
 
 import com.fireman.yang.auth.core.common.Token;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.beans.Transient;
 import java.io.IOException;
 
 /**
@@ -25,12 +26,12 @@ public class SessionToken implements Token {
         this.token = token;
         this.type = type;
     }
-
+    @Transient
     @Override
     public String getToken() {
         return token;
     }
-
+    @Transient
     public SessionType getType() {
         return type;
     }

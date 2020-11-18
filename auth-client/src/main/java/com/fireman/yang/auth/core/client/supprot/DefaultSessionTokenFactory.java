@@ -1,10 +1,10 @@
 package com.fireman.yang.auth.core.client.supprot;
 
 import com.fireman.yang.auth.core.common.ThreadContext;
-import com.fireman.yang.auth.session.Session;
-import com.fireman.yang.auth.session.SessionToken;
-import com.fireman.yang.auth.session.SessionTokenFactory;
-import com.fireman.yang.auth.core.client.session.AccessToken;
+import com.fireman.yang.auth.core.session.Session;
+import com.fireman.yang.auth.core.session.SessionToken;
+import com.fireman.yang.auth.core.session.SessionTokenFactory;
+import com.fireman.yang.auth.core.sso.AccessToken;
 import com.fireman.yang.auth.core.client.session.CookieToken;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.SessionType;

@@ -10,6 +10,11 @@ import com.fireman.yang.auth.core.common.enums.ReturnCode;
  * @Version V1.0
  */
 public class SystemErrorException extends AuthException {
+    public SystemErrorException(String msg, Throwable e) {
+
+        super(ReturnCode.SYSTEM_ERROR.getCode(), msg, e);
+    }
+
     public SystemErrorException(String msg) {
 
         super(ReturnCode.SYSTEM_ERROR.getCode(), msg);

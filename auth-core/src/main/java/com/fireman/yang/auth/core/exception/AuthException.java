@@ -11,12 +11,21 @@ public class AuthException extends RuntimeException {
     private int code;
     /** 返回错误信息 */
     private String msg;
+    /** 异常 */
+    private Throwable e;
 
 
     public AuthException(int code, String msg) {
         super(msg);
         this.code = code;
         this.msg = msg;
+    }
+
+    public AuthException(int code, String msg, Throwable e) {
+        super(msg);
+        this.code = code;
+        this.msg = msg;
+        this.e = e;
     }
 
     public int getCode() {
@@ -33,5 +42,13 @@ public class AuthException extends RuntimeException {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public Throwable getE() {
+        return e;
+    }
+
+    public void setE(Throwable e) {
+        this.e = e;
     }
 }

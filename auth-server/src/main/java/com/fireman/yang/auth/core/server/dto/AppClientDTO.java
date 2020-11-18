@@ -11,10 +11,10 @@ public class AppClientDTO {
     private String clientId;
     /** 系统名称 */
     private String clientName;
-    /** 状态 */
-    private String status;
     /** 系统密钥 */
     private String secretKey;
+    /** 系统内部域名 */
+    private String innerDomain;
     /** 系统域名 */
     private String domain;
 
@@ -34,14 +34,6 @@ public class AppClientDTO {
         this.clientName = clientName;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getSecretKey() {
         return secretKey;
     }
@@ -56,5 +48,13 @@ public class AppClientDTO {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public String getInnerDomain() {
+        return innerDomain;
+    }
+
+    public void setInnerDomain(String innerDomain) {
+        this.innerDomain = innerDomain;
     }
 }

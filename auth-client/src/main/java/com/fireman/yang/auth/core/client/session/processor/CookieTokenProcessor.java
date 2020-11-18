@@ -3,9 +3,8 @@ package com.fireman.yang.auth.core.client.session.processor;
 import com.fireman.yang.auth.core.client.ClientSessionDao;
 import com.fireman.yang.auth.core.client.session.CookieToken;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
-import com.fireman.yang.auth.core.common.Token;
-import com.fireman.yang.auth.session.Session;
-import com.fireman.yang.auth.session.SessionToken;
+import com.fireman.yang.auth.core.session.Session;
+import com.fireman.yang.auth.core.session.SessionToken;
 
 /**
  * @author tongdong

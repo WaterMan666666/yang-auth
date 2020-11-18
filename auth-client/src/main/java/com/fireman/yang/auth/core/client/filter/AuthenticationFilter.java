@@ -1,9 +1,9 @@
 package com.fireman.yang.auth.core.client.filter;
 
 import com.fireman.yang.auth.core.client.AuthClientManager;
-import com.fireman.yang.auth.session.Session;
-import com.fireman.yang.auth.session.SessionToken;
-import com.fireman.yang.auth.session.SessionTokenFactory;
+import com.fireman.yang.auth.core.session.Session;
+import com.fireman.yang.auth.core.session.SessionToken;
+import com.fireman.yang.auth.core.session.SessionTokenFactory;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.eunms.AuthFilterEnum;
 import com.fireman.yang.auth.core.common.ThreadContext;
@@ -51,27 +51,31 @@ public class AuthenticationFilter extends AbstractPathFilter {
     protected void doHandler(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        saveHttpInfo(httpServletRequest, httpServletResponse);
         if(checkLoginPath(httpServletRequest)){
             //处理登录的情况
             dealLogin(httpServletRequest, httpServletResponse, filterChain);
             return;
         }
-
-        if(isAuthenticate(httpServletRequest)){
+        if(isAuthenticate()){
             //已登录, 放行
             return;
         }
         //未登录 重定向到Login页面
-        unAuthenticate(servletRequest,servletResponse);
+        unAuthenticate(httpServletRequest, httpServletResponse);
+    }
+
+    private void saveHttpInfo(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        ThreadContext.put(AuthConstants.AUTH_HTTP_REQUEST, httpServletRequest);
+        ThreadContext.put(AuthConstants.AUTH_HTTP_RESPONSE, httpServletResponse);
     }
 
     private boolean checkLoginPath(HttpServletRequest httpServletRequest) {
         return matchPath(httpServletRequest, loginUrl);
     }
 
-    private boolean isAuthenticate(HttpServletRequest httpServletRequest){
-        SessionToken sessionToken = null;
-//        SessionToken sessionToken = sessionTokenFactory.generateSessionToken(httpServletRequest);
+    private boolean isAuthenticate(){
+        SessionToken sessionToken = sessionTokenFactory.generateSessionToken();
         Session session = clientManager.checkLogin(sessionToken);
         if(session != null) {
             ThreadContext.put(AuthConstants.AUTH_SESSION_TOKEN, sessionToken);
@@ -80,11 +84,10 @@ public class AuthenticationFilter extends AbstractPathFilter {
         return false;
     }
 
-    protected void unAuthenticate(ServletRequest request, ServletResponse response) throws IOException {
+    protected void unAuthenticate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //未登录则，重定向到Login页面
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
         //返回未登录信息
-        httpResponse.sendRedirect(loginUrl);
+        response.sendRedirect(loginUrl);
         //handler
         continueChain(request, false);
     }
@@ -100,7 +103,7 @@ public class AuthenticationFilter extends AbstractPathFilter {
                     continueOriginChain(filterChain);
                     break;
                 case POST:
-                    LoginToken loginToken = loginTokenFactory.generateLoginToken(httpServletRequest);
+                    LoginToken loginToken = loginTokenFactory.generateLoginToken();
                     SessionToken sessionToken = clientManager.login(loginToken);
                     sessionToken.afterLogin(httpServletRequest, httpServletResponse);
                     continueChain(httpServletRequest, false);

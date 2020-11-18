@@ -1,9 +1,7 @@
-package com.fireman.yang.auth.session;
+package com.fireman.yang.auth.core.session;
 
 
 import com.fireman.yang.auth.core.common.enums.SessionType;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author tongdong

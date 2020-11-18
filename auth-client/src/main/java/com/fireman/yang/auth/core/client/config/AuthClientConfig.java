@@ -1,12 +1,12 @@
 package com.fireman.yang.auth.core.client.config;
 
 import com.fireman.yang.auth.core.client.ClientSessionDao;
-import com.fireman.yang.auth.session.SessionFactory;
-import com.fireman.yang.auth.session.SessionTokenFactory;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
 import com.fireman.yang.auth.core.login.LoginTokenFactory;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
+import com.fireman.yang.auth.core.session.SessionFactory;
+import com.fireman.yang.auth.core.session.SessionTokenFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -19,21 +19,26 @@ import java.util.Map;
 public class AuthClientConfig {
 
     public AuthClientConfig(List<String> filters, Map<String, List<String>> mapping, ClientSessionDao sessionDao,
-                            LoginScop scop, Integer sessionExpire, String clientId, List<SessionTokenProcessor> sessionTokenProcessors,
+                            LoginScop scop, Integer sessionExpire, String clientId, String clientSecret,
+                            List<SessionTokenProcessor> sessionTokenProcessors,
                             List<LoginTokenProcessor> loginTokenProcessors, SessionFactory sessionFactory,
-                            SessionTokenFactory sessionTokenFactory,LoginTokenFactory loginTokenFactory, String loginUrl) {
+                            SessionTokenFactory sessionTokenFactory, LoginTokenFactory loginTokenFactory,
+                            String loginUri, String authDomain, String authTokenUri) {
         this.filters = filters;
         this.mapping = mapping;
         this.sessionDao = sessionDao;
         this.scop = scop;
         this.sessionExpire = sessionExpire;
         this.clientId = clientId;
+        this.clientSecret = clientSecret;
         this.sessionTokenProcessors = sessionTokenProcessors;
         this.loginTokenProcessors = loginTokenProcessors;
         this.sessionFactory = sessionFactory;
         this.sessionTokenFactory = sessionTokenFactory;
         this.loginTokenFactory = loginTokenFactory;
-        this.loginUrl = loginUrl;
+        this.loginUri = loginUri;
+        this.authDomain = authDomain;
+        this.authTokenUri = authTokenUri;
     }
 
     private List<String> filters;
@@ -48,6 +53,8 @@ public class AuthClientConfig {
 
     private String clientId;
 
+    private String clientSecret;
+
     private List<SessionTokenProcessor> sessionTokenProcessors;
 
     private List<LoginTokenProcessor> loginTokenProcessors;
@@ -58,7 +65,11 @@ public class AuthClientConfig {
 
     private LoginTokenFactory loginTokenFactory;
 
-    private String loginUrl;
+    private String loginUri;
+
+    String authDomain;
+
+    String authTokenUri;
 
     public ClientSessionDao getSessionDao() {
         return sessionDao;
@@ -124,14 +135,6 @@ public class AuthClientConfig {
         this.sessionTokenFactory = sessionTokenFactory;
     }
 
-    public String getLoginUrl() {
-        return loginUrl;
-    }
-
-    public void setLoginUrl(String loginUrl) {
-        this.loginUrl = loginUrl;
-    }
-
     public List<String> getFilters() {
         return filters;
     }
@@ -154,5 +157,37 @@ public class AuthClientConfig {
 
     public void setLoginTokenFactory(LoginTokenFactory loginTokenFactory) {
         this.loginTokenFactory = loginTokenFactory;
+    }
+
+    public String getLoginUri() {
+        return loginUri;
+    }
+
+    public void setLoginUri(String loginUri) {
+        this.loginUri = loginUri;
+    }
+
+    public String getAuthDomain() {
+        return authDomain;
+    }
+
+    public void setAuthDomain(String authDomain) {
+        this.authDomain = authDomain;
+    }
+
+    public String getAuthTokenUri() {
+        return authTokenUri;
+    }
+
+    public void setAuthTokenUri(String authTokenUri) {
+        this.authTokenUri = authTokenUri;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 }

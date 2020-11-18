@@ -4,7 +4,7 @@ import com.fireman.yang.auth.core.common.Processor;
 import com.fireman.yang.auth.core.common.enums.GrantType;
 import com.fireman.yang.auth.core.server.dto.AppClientDTO;
 import com.fireman.yang.auth.core.server.dto.GrantTokenDTO;
-import com.fireman.yang.auth.session.SessionToken;
+import com.fireman.yang.auth.core.session.SessionToken;
 
 /**
  * @author tongdong

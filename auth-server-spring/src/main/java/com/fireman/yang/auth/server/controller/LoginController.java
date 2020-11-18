@@ -3,6 +3,9 @@ package com.fireman.yang.auth.server.controller;
 import com.fireman.yang.auth.core.login.LoginToken;
 import com.fireman.yang.auth.core.login.LoginTokenFactory;
 import com.fireman.yang.auth.core.server.AuthSsoServerManager;
+import com.fireman.yang.auth.core.server.dto.AppClientDTO;
+import com.fireman.yang.auth.core.server.dto.AuthorizeDTO;
+import com.fireman.yang.auth.core.server.service.AuthServerCoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class LoginController {
     @Autowired
     private LoginTokenFactory loginTokenFactory;
     @Autowired
-    private AuthenticationController authenticationController;
+    private AuthServerCoreService authServerCoreService;
     /**
      * 登录
      * @return
@@ -51,17 +54,19 @@ public class LoginController {
                           @RequestParam(value = "login_url", required = false) String loginUrl,
                           @RequestParam(name = "bizType", required = false) String bizType,
                           HttpServletRequest requset){
-        //校验信息的完整
-        checkInfo();
+
+        //校验生成数据是否健全
+        AuthorizeDTO authorizeDTO = new AuthorizeDTO(responseType, clientId, redirectUri);
+        checkInfo(authorizeDTO);
         //获取用户登录凭证
-        LoginToken loginToken = loginTokenFactory.generateLoginToken(requset);
+        LoginToken loginToken = loginTokenFactory.generateLoginToken();
         //登录校验
         serverManager.login(loginToken);
         //授权处理
-        authenticationController.authorize(responseType, clientId, redirectUri, loginUrl ,bizType);
+        authServerCoreService.authorize(authorizeDTO, true);
     }
 
-    private void checkInfo() {
+    private void checkInfo(AuthorizeDTO authorizeDTO) {
 
     }
 }

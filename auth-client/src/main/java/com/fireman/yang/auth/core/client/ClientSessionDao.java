@@ -1,7 +1,7 @@
 package com.fireman.yang.auth.core.client;
 
 import com.fireman.yang.auth.core.common.enums.SessionType;
-import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.core.session.Session;
 
 /**
  * @author tongdong

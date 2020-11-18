@@ -40,6 +40,7 @@
         <module>auth-server-spring</module>
         <module>auth-client-spring-strater</module>
         <module>auth-server-spring-strater</module>
+        <module>auth-server-test</module>
     </modules>
 
     <build>

@@ -1,6 +1,8 @@
 package com.fireman.yang.auth.core.server.service;
 
 import com.fireman.yang.auth.core.server.dto.AuthorizeDTO;
+import com.fireman.yang.auth.core.server.dto.GrantTokenDTO;
+import com.fireman.yang.auth.core.session.SessionToken;
 
 /**
  * @author tongdong
@@ -9,5 +11,12 @@ import com.fireman.yang.auth.core.server.dto.AuthorizeDTO;
  */
 public interface AuthServerCoreService {
 
-    void authorize(AuthorizeDTO authorizeDTO);
+    /**
+     * 授权检查
+     */
+    void authorize(AuthorizeDTO authorizeDTO,  boolean isAuthenticate);
+    /**
+     * 发放token
+     */
+    SessionToken grantToken(GrantTokenDTO grantTokenDTO);
 }

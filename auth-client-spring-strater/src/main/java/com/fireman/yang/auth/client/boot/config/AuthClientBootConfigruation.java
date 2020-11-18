@@ -4,24 +4,30 @@ import com.fireman.yang.auth.client.config.AuthClientConfiguration;
 import com.fireman.yang.auth.core.client.*;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.dao.DefaultLocalSessionDao;
+import com.fireman.yang.auth.core.client.filter.AuthenticationFilter;
+import com.fireman.yang.auth.core.client.filter.SsoAuthenticationFilter;
+import com.fireman.yang.auth.core.client.handler.LoginSuccessHandler;
+import com.fireman.yang.auth.core.client.handler.UnAuthenticateHandler;
+import com.fireman.yang.auth.core.client.handler.support.DefaultLoginSuccessHandler;
+import com.fireman.yang.auth.core.client.handler.support.DefaultUnAuthenticateHandler;
 import com.fireman.yang.auth.core.client.service.LocalAuthServiceImpl;
 import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
 import com.fireman.yang.auth.core.client.session.processor.AccessTokenProcessor;
 import com.fireman.yang.auth.core.client.session.processor.CookieTokenProcessor;
+import com.fireman.yang.auth.core.client.sso.DefaultClientSsoService;
 import com.fireman.yang.auth.core.client.supprot.DefaultSessionFactory;
 import com.fireman.yang.auth.core.client.supprot.DefaultSessionTokenFactory;
 import com.fireman.yang.auth.core.client.supprot.SingletonAuthClientManager;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
-import com.fireman.yang.auth.core.login.DefaultLoginTokenFactory;
-import com.fireman.yang.auth.core.login.LoginTokenFactory;
-import com.fireman.yang.auth.core.login.LoginTokenProcessor;
-import com.fireman.yang.auth.core.login.PwdTokenProcessor;
+import com.fireman.yang.auth.core.login.*;
 import com.fireman.yang.auth.core.service.AuthService;
-import com.fireman.yang.auth.session.SessionFactory;
-import com.fireman.yang.auth.session.SessionTokenFactory;
+import com.fireman.yang.auth.core.sso.ClientSsoService;
+import com.fireman.yang.auth.core.session.SessionFactory;
+import com.fireman.yang.auth.core.session.SessionTokenFactory;
 import com.fireman.yang.auth.client.boot.annotation.SingleModelConditional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -49,9 +55,8 @@ public class AuthClientBootConfigruation {
     @Bean
     @ConditionalOnMissingBean(AuthService.class)
     public AuthService authService(AuthClientConfigruationProperties authProperties){
-        return new LocalAuthServiceImpl(authProperties.getUserInfoPath());
+        return new LocalAuthServiceImpl(authProperties.getInfoBasePath());
     }
-
 
     @Bean
     @ConditionalOnMissingBean(AccessTokenProcessor.class)
@@ -108,9 +113,10 @@ public class AuthClientBootConfigruation {
     ){
        return new AuthClientConfig(authProperties.getFilters(), authProperties.getMapping(),
                sessionDao, LoginScop.toEnum(authProperties.getScop()),
-               authProperties.getSessionExpire(), authProperties.getClientId(),
+               authProperties.getSessionExpire(), authProperties.getClientId(),authProperties.getClientSecret(),
                sessionTokenProcessors, loginTokenProcessors, sessionFactory,
-               sessionTokenFactory, loginTokenFactory, authProperties.getLoginUrl());
+               sessionTokenFactory, loginTokenFactory, authProperties.getLoginUri(),
+               authProperties.authTokenUri, authProperties.authDomain);
     }
 
     @Bean
@@ -119,6 +125,42 @@ public class AuthClientBootConfigruation {
         return new SingletonAuthClientManager(config);
     }
 
+
+    @Bean
+    @ConditionalOnMissingBean(UnAuthenticateHandler.class)
+    @ConditionalOnBean(SsoAuthenticationFilter.class)
+    public UnAuthenticateHandler unAuthenticateHandler(AuthClientConfig config){
+        return new DefaultUnAuthenticateHandler(config.getClientId(), config.getLoginUri());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(UnAuthenticateHandler.class)
+    @ConditionalOnBean(SsoAuthenticationFilter.class)
+    public LoginSuccessHandler loginSuccessHandler(){
+        return new DefaultLoginSuccessHandler();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AuthorizeCodeTokenProcessor.class)
+    @ConditionalOnBean(SsoAuthenticationFilter.class)
+    public AuthorizeCodeTokenProcessor authorizeCodeTokenProcessor(ClientSsoService clientSsoService){
+        return new AuthorizeCodeTokenProcessor(clientSsoService);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ClientSsoService.class)
+    @ConditionalOnBean(SsoAuthenticationFilter.class)
+    public ClientSsoService clientSsoService(AuthClientConfig config){
+        return new DefaultClientSsoService(config);
+    }
+
+    @Bean(name = "auth")
+    @ConditionalOnProperty(value = "enable",prefix = "yang.auth.client.model", havingValue = "sso")
+    @ConditionalOnMissingBean(AuthenticationFilter.class)
+    @ConditionalOnBean(AuthClientManager.class)
+    public SsoAuthenticationFilter ssoAuthenticationFilter(AuthClientConfig config, AuthClientManager authClientManager, UnAuthenticateHandler handler){
+        return new SsoAuthenticationFilter(config, authClientManager, handler);
+    }
 
 
 }

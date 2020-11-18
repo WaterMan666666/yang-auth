@@ -30,7 +30,7 @@ public class AuthServerConfigruationProperties {
     private Integer sessionExpire;
 
     /** 用户文件信息 */
-    private String userInfoPath;
+    private String infoBasePath;
 
     @PostConstruct
     public void check(){
@@ -70,11 +70,11 @@ public class AuthServerConfigruationProperties {
         this.sessionExpire = sessionExpire;
     }
 
-    public String getUserInfoPath() {
-        return userInfoPath;
+    public String getInfoBasePath() {
+        return infoBasePath;
     }
 
-    public void setUserInfoPath(String userInfoPath) {
-        this.userInfoPath = userInfoPath;
+    public void setInfoBasePath(String infoBasePath) {
+        this.infoBasePath = infoBasePath;
     }
 }

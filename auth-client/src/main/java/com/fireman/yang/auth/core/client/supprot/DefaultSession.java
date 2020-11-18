@@ -2,7 +2,7 @@ package com.fireman.yang.auth.core.client.supprot;
 
 import com.fireman.yang.auth.core.User;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
-import com.fireman.yang.auth.session.Session;
+import com.fireman.yang.auth.core.session.Session;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

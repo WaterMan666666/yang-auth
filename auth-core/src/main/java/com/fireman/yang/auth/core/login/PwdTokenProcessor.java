@@ -10,7 +10,7 @@ import com.fireman.yang.auth.core.service.AuthService;
  * @Date: 2020/6/10
  * @Description:
  */
-public class PwdTokenProcessor extends LoginTokenProcessor<PasswordToken> {
+public class PwdTokenProcessor extends LoginTokenProcessor<LoginToken> {
 
     private AuthService authService;
 
@@ -19,12 +19,13 @@ public class PwdTokenProcessor extends LoginTokenProcessor<PasswordToken> {
     }
 
     @Override
-    public User authenticate(PasswordToken token) {
+    public User authenticate(LoginToken loginToken) {
+        PasswordToken token = (PasswordToken)loginToken;
         return authService.authenticate(token);
     }
 
     @Override
-    public boolean isTypeMatch(PasswordToken token) {
+    public boolean isTypeMatch(LoginToken token) {
         return token instanceof PasswordToken;
     }
 }

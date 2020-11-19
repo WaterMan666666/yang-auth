@@ -108,10 +108,7 @@ public class PathMatchingFilter extends AbstractFilter {
     protected boolean matchPath(HttpServletRequest httpServletRequest, String... path){
         String requestURI = WebUtils.getPathWithinApplication(httpServletRequest);
         boolean match = Stream.of(path).anyMatch(item -> pathMatcher.matches(requestURI, item));
-        if(match){
-            return true;
-        }
-        return false;
+        return match;
     }
 
 }

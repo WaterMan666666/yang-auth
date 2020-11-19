@@ -1,5 +1,7 @@
 package com.fireman.yang.auth.core.exception;
 
+import com.fireman.yang.auth.core.common.enums.ReturnCode;
+
 /**
  * @author tongdong
  * @Date: 2020/11/11
@@ -7,7 +9,7 @@ package com.fireman.yang.auth.core.exception;
  */
 public class AuthenticateException extends AuthException {
 
-    public AuthenticateException(int code, String msg) {
-        super(code, msg);
+    public AuthenticateException(String msg) {
+        super(ReturnCode.UNAUTHORIZED.getCode(), msg);
     }
 }

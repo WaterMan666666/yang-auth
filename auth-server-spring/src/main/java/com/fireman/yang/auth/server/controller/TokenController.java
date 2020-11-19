@@ -24,7 +24,7 @@ public class TokenController {
      * 登录提交
      * @return
      */
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
+    @RequestMapping(value = "/oauth/token", method = RequestMethod.POST)
     public void getToken(@RequestParam(value = "grant_type", required = false) String grantType,
                           @RequestParam(value = "code", required = false) String code,
                           @RequestParam(value = "redirect_uri", required = false) String redirectUri,

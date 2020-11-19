@@ -5,15 +5,14 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="/login" method="post">
+    <form action="/oauth/login" method="post">
         用户名:<input name="username" />
         <br/>
         密码:<input name="password" />
         <br/>
-        登录方式:<select name="loginType" >
-        <option label="Cookie" value="Cookie"></option>
-        <option label="AccessToken" value=""></option>
-    </select>
+        <input name="response_type" value="code"/>
+        <input name="client_id" value="ucenter"/>
+        <input name="redirect_uri" value="/test"/>
         <br/>
         <button type="submit">提交</button>
     </form>

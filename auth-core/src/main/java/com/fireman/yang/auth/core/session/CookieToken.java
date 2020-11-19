@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.core.client.session;
+package com.fireman.yang.auth.core.session;
 
 
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
@@ -6,7 +6,6 @@ import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.web.utils.CookieUtils;
 import com.fireman.yang.auth.core.web.utils.StringUtils;
 import com.fireman.yang.auth.core.web.utils.WebUtils;
-import com.fireman.yang.auth.core.session.SessionToken;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -30,8 +30,8 @@ public class AuthorizeDTO {
     private String scope;
     /** 需要跳转到的前端域名，改URL必须和redirectUri 同域 */
     private String originUrl;
-    /** 自定义登录页面 */
-    private String loginUrl;
+    /** 自定义登录 */
+    private String loginUri;
 
     public String getResponseType() {
         return responseType;
@@ -73,11 +73,11 @@ public class AuthorizeDTO {
         this.originUrl = originUrl;
     }
 
-    public String getLoginUrl() {
-        return loginUrl;
+    public String getLoginUri() {
+        return loginUri;
     }
 
-    public void setLoginUrl(String loginUrl) {
-        this.loginUrl = loginUrl;
+    public void setLoginUri(String loginUri) {
+        this.loginUri = loginUri;
     }
 }

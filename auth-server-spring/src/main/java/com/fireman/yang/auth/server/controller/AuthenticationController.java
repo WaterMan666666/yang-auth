@@ -21,14 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Description:
  */
 @Controller
-@RequestMapping(value = "oauth2")
 public class AuthenticationController {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     private AuthSsoServerManager serverManager;
-
 
     @Autowired
     private SessionTokenFactory sessionTokenFactory;
@@ -41,20 +39,17 @@ public class AuthenticationController {
      * 1.校验数据正确性
      * 2.根据response_type 区分走的授权方式  目前只支持code
      */
-    @RequestMapping(value = "{bizType}/sso/authorize", method = RequestMethod.GET)
-    public void authorize(@RequestParam(value = "response_type", required = false) String responseType,
+    @RequestMapping(value = "oauth/sso/authorize", method = RequestMethod.GET)
+    public String authorize(@RequestParam(value = "response_type", required = false) String responseType,
                           @RequestParam(value = "client_id", required = false) String clientId,
-                          @RequestParam(value = "redirect_uri", required = false) String redirectUri,
-                          @RequestParam(value = "login_url", required = false) String loginUrl,
-                          @PathVariable(name = "bizType", required = false) String bizType) throws AuthException {
-
+                          @RequestParam(value = "redirect_uri", required = false) String redirectUri) throws AuthException {
 
         AuthorizeDTO authorizeDTO = new AuthorizeDTO(responseType, clientId, redirectUri);
-        authorizeDTO.setLoginUrl(loginUrl);
         checkInfo(authorizeDTO);
         //校验生成数据是否健全
         boolean ssoAuthenticate = ssoAuthenticate();
-        authServerCoreService.authorize(authorizeDTO, ssoAuthenticate);
+        String url =  authServerCoreService.authorize(authorizeDTO, ssoAuthenticate);
+        return "redirect:" + url;
     }
 
     private void checkInfo(AuthorizeDTO authorizeDTO) {

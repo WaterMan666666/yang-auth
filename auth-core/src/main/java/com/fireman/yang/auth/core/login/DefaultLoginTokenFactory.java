@@ -3,6 +3,7 @@ package com.fireman.yang.auth.core.login;
 import com.fireman.yang.auth.core.common.ThreadContext;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.SessionType;
+import com.fireman.yang.auth.core.exception.AuthenticateException;
 import com.fireman.yang.auth.core.exception.ParameterErrorException;
 import com.fireman.yang.auth.core.web.utils.StringUtils;
 
@@ -22,7 +23,7 @@ public class DefaultLoginTokenFactory implements LoginTokenFactory {
         }else if(isAuthorizeCodeToken()){
             return getAuthorizeCodeToken();
         }
-        throw  new ParameterErrorException("login params is not exist");
+        throw  new AuthenticateException("login params is not exist");
     }
 
 
@@ -30,9 +31,7 @@ public class DefaultLoginTokenFactory implements LoginTokenFactory {
         HttpServletRequest request = ThreadContext.getRequest();
         String username = request.getParameter(AuthConstants.USERNAME);
         String password = request.getParameter(AuthConstants.PASSWORD);
-        String loginType = request.getParameter(AuthConstants.LOGIN_TYPE);
-        SessionType sessionType = SessionType.toEnum(loginType);
-        return StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && sessionType != null;
+        return StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password);
     }
 
     protected LoginToken getPasswordToken(){
@@ -48,9 +47,7 @@ public class DefaultLoginTokenFactory implements LoginTokenFactory {
     protected boolean isAuthorizeCodeToken(){
         HttpServletRequest request = ThreadContext.getRequest();
         String code = request.getParameter(AuthConstants.CODE);
-        String loginType = request.getParameter(AuthConstants.LOGIN_TYPE);
-        SessionType sessionType = SessionType.toEnum(loginType);
-        return StringUtils.isNotBlank(code)  && sessionType != null;
+        return StringUtils.isNotBlank(code);
     }
 
     protected LoginToken getAuthorizeCodeToken(){

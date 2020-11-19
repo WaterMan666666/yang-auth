@@ -1,8 +1,6 @@
-package com.fireman.yang.auth.core.client.dao;
+package com.fireman.yang.auth.core.server.support;
 
 import com.fireman.yang.auth.core.User;
-import com.fireman.yang.auth.core.client.SingletonClientSessionDao;
-import com.fireman.yang.auth.core.client.session.ClientSessionDao;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.session.Session;
 import com.fireman.yang.auth.core.session.SessionToken;
@@ -18,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @Date: 2020/6/28
  * @Description: 内存中的实现方式，建议不超过5000个用户
  */
-public class DefaultLocalSessionDao extends ClientSessionDao implements SingletonClientSessionDao {
+public class DefaultLocalServerSessionDao extends ServerSessionDao {
 
     private static final String SEPARATOR = ":";
 
@@ -30,8 +28,8 @@ public class DefaultLocalSessionDao extends ClientSessionDao implements Singleto
 
     private final Cache<String, List<SessionToken>> userCache ;
 
-    public DefaultLocalSessionDao(String clientId, int sessionExpire) {
-        super(clientId, sessionExpire);
+    public DefaultLocalServerSessionDao(int sessionExpire) {
+        super(sessionExpire);
         sessionCache = Caffeine.newBuilder().recordStats()
                 .expireAfterWrite(sessionExpire, TimeUnit.SECONDS)
                 .maximumSize(SESSION_MAXSIZE).build();
@@ -84,4 +82,5 @@ public class DefaultLocalSessionDao extends ClientSessionDao implements Singleto
         }
         userCache.invalidate(user);
     }
+
 }

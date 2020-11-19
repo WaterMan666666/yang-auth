@@ -6,7 +6,6 @@ import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.login.LoginToken;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
 import com.fireman.yang.auth.core.server.AuthSsoServerManager;
-import com.fireman.yang.auth.core.server.ServerSessionDao;
 import com.fireman.yang.auth.core.session.*;
 
 import java.util.List;
@@ -30,6 +29,14 @@ public class DefaultAuthSsoServerManager extends AbstractAuthServerManager imple
 
     protected ServerSessionDao sessionDao;
 
+    public DefaultAuthSsoServerManager(LoginScop scop, List<SessionTokenProcessor> sessionTokenProcessors, List<LoginTokenProcessor> loginTokenProcessors, SessionFactory sessionFactory, SessionTokenFactory sessionTokenFactory, ServerSessionDao sessionDao) {
+        this.scop = scop;
+        this.sessionTokenProcessors = sessionTokenProcessors;
+        this.loginTokenProcessors = loginTokenProcessors;
+        this.sessionFactory = sessionFactory;
+        this.sessionTokenFactory = sessionTokenFactory;
+        this.sessionDao = sessionDao;
+    }
 
     @Override
     public SessionToken login(LoginToken token) {
@@ -38,7 +45,7 @@ public class DefaultAuthSsoServerManager extends AbstractAuthServerManager imple
         //判断LoginToken是否为有效Token
         User user = authenticate(token);
         //创建session
-        Session session = createSession(user);
+        Session session = createSession(token.getSessionType(), user);
         //根据想要获取的token模式发送SessionToken
         return distributeSessionToken(token.getSessionType(), session);
     }
@@ -56,7 +63,7 @@ public class DefaultAuthSsoServerManager extends AbstractAuthServerManager imple
         Session session = checkLogin(token);
         //销毁已经存在的Session
         if(session != null) {
-//            destroySession(token.getType() ,session);
+            sessionDao.destroySession(token.getType() ,session.getId());
         }
     }
 
@@ -72,14 +79,14 @@ public class DefaultAuthSsoServerManager extends AbstractAuthServerManager imple
     /**
      * 根据登录用户创建session
      */
-    protected Session createSession( User loginUser){
+    protected Session createSession(SessionType sessionType,  User loginUser){
         //根据scop来判断完成哪种模式
         if(LoginScop.singleton.equals(scop)){
             //需要清除当前用户所有实例
             destroySession(loginUser);
         }
         Session session = sessionFactory.generateSession(loginUser);
-//        sessionDao.createSession(session);
+        sessionDao.createSession( sessionType, session);
         return session;
     }
 

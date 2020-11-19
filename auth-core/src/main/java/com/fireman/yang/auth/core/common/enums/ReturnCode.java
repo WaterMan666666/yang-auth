@@ -7,10 +7,9 @@ package com.fireman.yang.auth.core.common.enums;
  */
 public enum  ReturnCode {
 
-    OK(200, "成功"),
+    OK(200, "success"),
     BAD_REQUEST(400, "请求无法被服务器理解"),
-    UNAUTHORIZED(401, "未授权"),
-    UNLOGIN(472, "未登陆"),
+    UNAUTHORIZED(401, "unauthorized"),
     SYSTEM_ERROR(500, "系统错误"),
     ;
 
@@ -36,5 +35,15 @@ public enum  ReturnCode {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+
+    public static ReturnCode toEnum(int code) {
+        for (ReturnCode item : ReturnCode.values()) {
+            if (item.code == code) {
+                return item;
+            }
+        }
+        return null;
     }
 }

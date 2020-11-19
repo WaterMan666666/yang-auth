@@ -83,18 +83,18 @@ public class AuthClientConfigruationProperties {
         switch (model){
             case sso:
                 if(StringUtils.isBlank(authDomain)){
-                    log.error("sso model propertie < authDomain > not exist");
+                    log.error("sso model propertie < yang.auth.client.authDomain > not exist");
                     throw new ParameterErrorException("authDomain not exist ");
                 }
                 if(StringUtils.isBlank(authTokenUri)){
                     authTokenUri = "/oauth/token";
                 }
                 if(StringUtils.isBlank(clientId)){
-                    log.error("sso model propertie < clientId > not exist");
+                    log.error("sso model propertie < yang.auth.client.clientId > not exist");
                     throw new ParameterErrorException("clientId not exist ");
                 }
                 if(StringUtils.isBlank(clientSecret)){
-                    log.error("sso model propertie < clientSecret > not exist");
+                    log.error("sso model propertie < yang.auth.client.clientSecret > not exist");
                     throw new ParameterErrorException("clientSecret not exist ");
                 }
                 break;

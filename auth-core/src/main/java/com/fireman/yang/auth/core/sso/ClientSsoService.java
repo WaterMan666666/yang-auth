@@ -2,6 +2,7 @@ package com.fireman.yang.auth.core.sso;
 
 import com.fireman.yang.auth.core.User;
 import com.fireman.yang.auth.core.login.AuthorizeCodeToken;
+import com.fireman.yang.auth.core.session.AccessToken;
 
 /**
  * @author tongdong

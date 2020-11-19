@@ -1,9 +1,9 @@
 package com.fireman.yang.auth.core.client.session;
 
-import com.fireman.yang.auth.core.client.ClientSessionDao;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.session.Session;
+import com.fireman.yang.auth.core.session.SessionDao;
 
 
 /**
@@ -11,13 +11,13 @@ import com.fireman.yang.auth.core.session.Session;
  * @Date: 2020/10/30
  * @Description:
  */
-public abstract class AbstractSessionDao implements ClientSessionDao {
+public abstract class ClientSessionDao implements SessionDao {
 
     private String clientId;
 
     private int sessionExpire;
 
-    public AbstractSessionDao(String clientId, int sessionExpire) {
+    public ClientSessionDao(String clientId, int sessionExpire) {
         this.clientId = clientId;
         this.sessionExpire = sessionExpire;
     }

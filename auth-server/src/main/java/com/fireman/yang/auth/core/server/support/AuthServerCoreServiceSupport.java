@@ -24,9 +24,35 @@ public class AuthServerCoreServiceSupport implements AuthServerCoreService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthServerCoreServiceSupport.class);
 
-    public AuthServerCoreServiceSupport(List<ResponseTypeProcessor> responseTypeProcessors, List<GrantTypeProcessor> grantTypeProcessors) {
+
+    public AuthServerCoreServiceSupport(List<ResponseTypeProcessor> responseTypeProcessors, List<GrantTypeProcessor> grantTypeProcessors, AuthServerService authServiceService) {
         this.responseTypeProcessors = responseTypeProcessors;
         this.grantTypeProcessors = grantTypeProcessors;
+        this.authServiceService = authServiceService;
+    }
+
+    public List<ResponseTypeProcessor> getResponseTypeProcessors() {
+        return responseTypeProcessors;
+    }
+
+    public void setResponseTypeProcessors(List<ResponseTypeProcessor> responseTypeProcessors) {
+        this.responseTypeProcessors = responseTypeProcessors;
+    }
+
+    public List<GrantTypeProcessor> getGrantTypeProcessors() {
+        return grantTypeProcessors;
+    }
+
+    public void setGrantTypeProcessors(List<GrantTypeProcessor> grantTypeProcessors) {
+        this.grantTypeProcessors = grantTypeProcessors;
+    }
+
+    public AuthServerService getAuthServiceService() {
+        return authServiceService;
+    }
+
+    public void setAuthServiceService(AuthServerService authServiceService) {
+        this.authServiceService = authServiceService;
     }
 
     private List<ResponseTypeProcessor> responseTypeProcessors;
@@ -36,9 +62,7 @@ public class AuthServerCoreServiceSupport implements AuthServerCoreService {
     private AuthServerService authServiceService;
 
     @Override
-    public void authorize(AuthorizeDTO authorizeDTO,  boolean isAuthenticate) {
-
-
+    public String authorize(AuthorizeDTO authorizeDTO,  boolean isAuthenticate) {
 
         String responseType = authorizeDTO.getResponseType();
         ResponseType responseTypeEnum = ResponseType.toEnum(responseType);
@@ -49,13 +73,14 @@ public class AuthServerCoreServiceSupport implements AuthServerCoreService {
                 if(typeProcessor.isTypeMatch(responseTypeEnum)){
                     AppClientDTO clientDTO = checkAppClient(authorizeDTO.getClientId());
                     if(isAuthenticate){
-                        typeProcessor.processAuthenticate(authorizeDTO, clientDTO);
+                       return  typeProcessor.processAuthenticate(authorizeDTO, clientDTO);
                     }else {
-                        typeProcessor.processUnauthenticate(authorizeDTO, clientDTO);
+                       return typeProcessor.processUnauthenticate(authorizeDTO, clientDTO);
                     }
                 }
             }
         }
+        return "/";
     }
 
     @Override

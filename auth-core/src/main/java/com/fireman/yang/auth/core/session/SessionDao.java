@@ -1,14 +1,13 @@
-package com.fireman.yang.auth.core.client;
+package com.fireman.yang.auth.core.session;
 
 import com.fireman.yang.auth.core.common.enums.SessionType;
-import com.fireman.yang.auth.core.session.Session;
 
 /**
  * @author tongdong
  * @Date: 2020/6/9
  * @Description:
  */
-public interface ClientSessionDao {
+public interface SessionDao {
 
 
 

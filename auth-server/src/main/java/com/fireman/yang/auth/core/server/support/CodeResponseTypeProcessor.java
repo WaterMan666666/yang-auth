@@ -8,6 +8,7 @@ import com.fireman.yang.auth.core.server.AuthorizeCodeFactory;
 import com.fireman.yang.auth.core.server.dto.AppClientDTO;
 import com.fireman.yang.auth.core.server.dto.AuthorizeDTO;
 import com.fireman.yang.auth.core.web.utils.CollectionUtils;
+import com.fireman.yang.auth.core.web.utils.StringUtils;
 import com.fireman.yang.auth.core.web.utils.url.UrlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,10 @@ public class CodeResponseTypeProcessor extends ResponseTypeProcessor {
 
     private static final Logger log = LoggerFactory.getLogger(CodeResponseTypeProcessor.class);
 
-    public CodeResponseTypeProcessor(AuthorizeCodeFactory authorizeCodeFactory) {
+    private String loginUri;
+
+    public CodeResponseTypeProcessor(String loginUri, AuthorizeCodeFactory authorizeCodeFactory) {
+        this.loginUri = loginUri;
         this.authorizeCodeFactory = authorizeCodeFactory;
     }
 
@@ -39,7 +43,7 @@ public class CodeResponseTypeProcessor extends ResponseTypeProcessor {
     }
 
     @Override
-    public void processAuthenticate(AuthorizeDTO authorizeDTO, AppClientDTO appClientDTO) {
+    public String processAuthenticate(AuthorizeDTO authorizeDTO, AppClientDTO appClientDTO) {
         //获取授权码
         String authorizeCode = generateAuthorizeCode();
         String domain = appClientDTO.getDomain();
@@ -50,36 +54,26 @@ public class CodeResponseTypeProcessor extends ResponseTypeProcessor {
         CollectionUtils.putString(params, "code" , authorizeCode);
         CollectionUtils.putString(params, "originUrl" , originUrl);
         String callUrl = UrlUtils.genUrl(domain, Arrays.asList(redirectUri) , params);
-        redirect(callUrl);
+        return callUrl;
     }
 
 
     @Override
-    public void processUnauthenticate(AuthorizeDTO authorizeDTO, AppClientDTO appClientDTO) {
+    public String processUnauthenticate(AuthorizeDTO authorizeDTO, AppClientDTO appClientDTO) {
         //根据是否自定义登录页面，如果没有则重定向到默认的登录页面
         String domain = appClientDTO.getDomain();
-        String loginUrl = authorizeDTO.getLoginUrl();
+        String loginUri = authorizeDTO.getLoginUri();
         String originUrl = authorizeDTO.getOriginUrl();
         Map<String, String> params = new HashMap<>(2);
         CollectionUtils.putString(params, "originUrl" , originUrl);
-        String callUrl = UrlUtils.genUrl(domain, Arrays.asList(loginUrl) , params);
-        redirect(callUrl);
+        String callUrl = this.loginUri;
+        if(StringUtils.isNotBlank(loginUri)){
+            callUrl = UrlUtils.genUrl(domain, Arrays.asList(loginUri) , params);
+        }
+        return callUrl;
     }
 
     private String generateAuthorizeCode() {
         return authorizeCodeFactory.generate();
-    }
-
-    private void redirect(String url) {
-        HttpServletResponse response =ThreadContext.getResponse();
-        if(response != null) {
-            try {
-                response.sendRedirect(url);
-            } catch (IOException e) {
-                log.error("重定向报错", e);
-            }
-        }else{
-            throw new SystemErrorException("获取响应对象失败");
-        }
     }
 }

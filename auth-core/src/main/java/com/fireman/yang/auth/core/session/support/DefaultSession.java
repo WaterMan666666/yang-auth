@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.core.client.supprot;
+package com.fireman.yang.auth.core.session.support;
 
 import com.fireman.yang.auth.core.User;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;

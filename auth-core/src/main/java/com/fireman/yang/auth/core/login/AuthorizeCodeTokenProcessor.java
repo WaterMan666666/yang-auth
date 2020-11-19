@@ -3,7 +3,7 @@ package com.fireman.yang.auth.core.login;
 import com.fireman.yang.auth.core.User;
 import com.fireman.yang.auth.core.common.ThreadContext;
 import com.fireman.yang.auth.core.common.constants.AuthConstants;
-import com.fireman.yang.auth.core.sso.AccessToken;
+import com.fireman.yang.auth.core.session.AccessToken;
 import com.fireman.yang.auth.core.sso.ClientSsoService;
 
 /**

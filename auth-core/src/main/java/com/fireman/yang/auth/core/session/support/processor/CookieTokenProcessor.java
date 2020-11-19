@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.core.client.session.processor;
+package com.fireman.yang.auth.core.session.support.processor;
 
 import com.fireman.yang.auth.core.session.*;
 

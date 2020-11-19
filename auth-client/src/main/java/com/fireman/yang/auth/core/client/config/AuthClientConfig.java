@@ -1,12 +1,12 @@
 package com.fireman.yang.auth.core.client.config;
 
-import com.fireman.yang.auth.core.client.ClientSessionDao;
-import com.fireman.yang.auth.core.client.session.SessionTokenProcessor;
+import com.fireman.yang.auth.core.client.session.ClientSessionDao;
 import com.fireman.yang.auth.core.common.enums.LoginScop;
 import com.fireman.yang.auth.core.login.LoginTokenFactory;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
 import com.fireman.yang.auth.core.session.SessionFactory;
 import com.fireman.yang.auth.core.session.SessionTokenFactory;
+import com.fireman.yang.auth.core.session.SessionTokenProcessor;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.fireman.yang.auth.core.sso;
+package com.fireman.yang.auth.core.session;
 
 
 import com.fireman.yang.auth.core.common.enums.SessionType;
@@ -20,10 +20,10 @@ import static com.fireman.yang.auth.core.common.constants.AuthConstants.AUTHORIZ
  */
 public class AccessToken extends SessionToken {
 
-private String accessToken;
-private String tokenType;
-private String expiresIn;
-private String refreshToken;
+    private String accessToken;
+    private String tokenType;
+    private String expiresIn;
+    private String refreshToken;
 
     public AccessToken(HttpServletRequest request) {
         super(getAuthorizationToken(request), SessionType.AccessToken);

@@ -14,7 +14,7 @@ public interface AuthServerCoreService {
     /**
      * 授权检查
      */
-    void authorize(AuthorizeDTO authorizeDTO,  boolean isAuthenticate);
+    String authorize(AuthorizeDTO authorizeDTO,  boolean isAuthenticate);
     /**
      * 发放token
      */

@@ -1,5 +1,6 @@
 package com.fireman.yang.auth.server.test;
 
+import com.fireman.yang.auth.server.controller.LoginController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2020/6/4
  * @Description:
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.fireman.yang.auth.server.controller"})
 public class AuthServerWebStarter {
 
 

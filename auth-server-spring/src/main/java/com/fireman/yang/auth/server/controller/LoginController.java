@@ -9,6 +9,7 @@ import com.fireman.yang.auth.core.server.service.AuthServerCoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import java.util.Arrays;
  * @Date: 2020/11/11
  * @Description:
  */
+@Controller
 public class LoginController {
 
 
@@ -37,7 +39,7 @@ public class LoginController {
      * 登录
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "oauth/login", method = RequestMethod.GET)
     public String loginGet(){
         log.info("登录调用");
         return "login";
@@ -47,12 +49,10 @@ public class LoginController {
      * 登录提交
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public void loginPost(@RequestParam(value = "response_type", required = false) String responseType,
+    @RequestMapping(value = "oauth/login", method = RequestMethod.POST)
+    public String loginPost(@RequestParam(value = "response_type", required = false) String responseType,
                           @RequestParam(value = "client_id", required = false) String clientId,
                           @RequestParam(value = "redirect_uri", required = false) String redirectUri,
-                          @RequestParam(value = "login_url", required = false) String loginUrl,
-                          @RequestParam(name = "bizType", required = false) String bizType,
                           HttpServletRequest requset){
 
         //校验生成数据是否健全
@@ -63,7 +63,8 @@ public class LoginController {
         //登录校验
         serverManager.login(loginToken);
         //授权处理
-        authServerCoreService.authorize(authorizeDTO, true);
+        String url = authServerCoreService.authorize(authorizeDTO, true);
+        return "redirect:" + url;
     }
 
     private void checkInfo(AuthorizeDTO authorizeDTO) {

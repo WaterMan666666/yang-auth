@@ -28,13 +28,19 @@ public class DefaultLocalServerSessionDao extends ServerSessionDao {
 
     private final Cache<String, List<SessionToken>> userCache ;
 
-    public DefaultLocalServerSessionDao(int sessionExpire) {
-        super(sessionExpire);
+    private final Cache<String, String> keyCache ;
+
+    public DefaultLocalServerSessionDao(int sessionExpire, int codeExpire) {
+        super(sessionExpire, codeExpire);
         sessionCache = Caffeine.newBuilder().recordStats()
                 .expireAfterWrite(sessionExpire, TimeUnit.SECONDS)
                 .maximumSize(SESSION_MAXSIZE).build();
 
         userCache = Caffeine.newBuilder().recordStats()
+                .expireAfterWrite(sessionExpire, TimeUnit.SECONDS)
+                .maximumSize(USER_MAXSIZE).build();
+
+        keyCache = Caffeine.newBuilder().recordStats()
                 .expireAfterWrite(sessionExpire, TimeUnit.SECONDS)
                 .maximumSize(USER_MAXSIZE).build();
     }
@@ -81,6 +87,16 @@ public class DefaultLocalServerSessionDao extends ServerSessionDao {
             }
         }
         userCache.invalidate(user);
+    }
+
+    @Override
+    protected void saveValue(String key, String value, int codeExpire) {
+        keyCache.put(key, value);
+    }
+
+    @Override
+    protected String getValue(String key) {
+        return keyCache.getIfPresent(key);
     }
 
 }

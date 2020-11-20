@@ -19,11 +19,6 @@ public class AuthServerConfig {
 
     public AuthServerConfig(LoginScop scop, List<SessionTokenProcessor> sessionTokenProcessors, List<LoginTokenProcessor> loginTokenProcessors, SessionFactory sessionFactory, SessionTokenFactory sessionTokenFactory, ServerSessionDao sessionDao, String infoBasePath,String authorizeUri, String tokenUri, String loginUri) {
         this.scop = scop;
-        this.sessionTokenProcessors = sessionTokenProcessors;
-        this.loginTokenProcessors = loginTokenProcessors;
-        this.sessionFactory = sessionFactory;
-        this.sessionTokenFactory = sessionTokenFactory;
-        this.sessionDao = sessionDao;
         this.authorizeUri = authorizeUri;
         this.tokenUri = tokenUri;
         this.loginUri = loginUri;
@@ -31,11 +26,6 @@ public class AuthServerConfig {
     }
 
     private LoginScop scop;
-    private List<SessionTokenProcessor> sessionTokenProcessors;
-    private List<LoginTokenProcessor> loginTokenProcessors;
-    private SessionFactory sessionFactory;
-    private SessionTokenFactory sessionTokenFactory;
-    private ServerSessionDao sessionDao;
     private String authorizeUri;
     private String infoBasePath;
     private String tokenUri;
@@ -47,46 +37,6 @@ public class AuthServerConfig {
 
     public void setScop(LoginScop scop) {
         this.scop = scop;
-    }
-
-    public List<SessionTokenProcessor> getSessionTokenProcessors() {
-        return sessionTokenProcessors;
-    }
-
-    public void setSessionTokenProcessors(List<SessionTokenProcessor> sessionTokenProcessors) {
-        this.sessionTokenProcessors = sessionTokenProcessors;
-    }
-
-    public List<LoginTokenProcessor> getLoginTokenProcessors() {
-        return loginTokenProcessors;
-    }
-
-    public void setLoginTokenProcessors(List<LoginTokenProcessor> loginTokenProcessors) {
-        this.loginTokenProcessors = loginTokenProcessors;
-    }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public SessionTokenFactory getSessionTokenFactory() {
-        return sessionTokenFactory;
-    }
-
-    public void setSessionTokenFactory(SessionTokenFactory sessionTokenFactory) {
-        this.sessionTokenFactory = sessionTokenFactory;
-    }
-
-    public ServerSessionDao getSessionDao() {
-        return sessionDao;
-    }
-
-    public void setSessionDao(ServerSessionDao sessionDao) {
-        this.sessionDao = sessionDao;
     }
 
     public String getAuthorizeUri() {

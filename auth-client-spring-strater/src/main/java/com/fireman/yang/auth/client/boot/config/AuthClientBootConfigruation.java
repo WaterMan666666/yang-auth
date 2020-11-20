@@ -110,7 +110,7 @@ public class AuthClientBootConfigruation {
        return new AuthClientConfig(authProperties.getFilters(), authProperties.getMapping(),
                LoginScop.toEnum(authProperties.getScop()),
                authProperties.getSessionExpire(), authProperties.getClientId(),authProperties.getClientSecret(),
-               authProperties.getLoginUri(), authProperties.authTokenUri, authProperties.authDomain);
+               authProperties.getLoginUri(),  authProperties.authDomain, authProperties.authTokenUri);
     }
 
     @Bean

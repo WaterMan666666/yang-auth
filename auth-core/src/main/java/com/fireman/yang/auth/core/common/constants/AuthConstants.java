@@ -56,6 +56,8 @@ public class AuthConstants {
 
     /** 默认session时间：30分钟 */
     public static final Integer SESSION_EXPIRE_DEFAULT = 30 * 60;
+    /** 默认code时间：10分钟 */
+    public static final Integer CODE_EXPIRE_DEFAULT = 10 * 60;
 
     /** 成功标识常量（系统内部使用） */
     public static final String COMMON_SUCCESS = "success";

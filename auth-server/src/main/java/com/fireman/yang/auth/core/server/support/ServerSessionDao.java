@@ -5,6 +5,7 @@ import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.SessionType;
 import com.fireman.yang.auth.core.session.Session;
 import com.fireman.yang.auth.core.session.SessionDao;
+import com.fireman.yang.auth.core.web.utils.StringUtils;
 
 import java.util.List;
 
@@ -18,8 +19,11 @@ public abstract class ServerSessionDao implements SessionDao {
 
     private int sessionExpire;
 
-    public ServerSessionDao(int sessionExpire) {
+    private int codeExpire;
+
+    public ServerSessionDao(int sessionExpire, int codeExpire) {
         this.sessionExpire = sessionExpire;
+        this.codeExpire = codeExpire;
     }
 
     @Override
@@ -49,6 +53,10 @@ public abstract class ServerSessionDao implements SessionDao {
         return getKey(AuthConstants.AUTH, AuthConstants.ONLINE_USER, userId);
     }
 
+    protected  String getCodeKey(String code){
+        return getKey(AuthConstants.AUTH, AuthConstants.AUTH_CODE, code);
+    }
+
     private  String getKey(String... keys){
         if(keys != null && keys.length > 0){
             String separator = getSeparator();
@@ -71,6 +79,21 @@ public abstract class ServerSessionDao implements SessionDao {
     protected abstract void destroySession(String key);
 
     public abstract void destroySession(User user);
+
+    protected abstract void saveValue(String key, String value, int codeExpire);
+
+    protected abstract String getValue(String key);
+
+    public String getCode(){
+        String randomCode = StringUtils.randomCode(6);
+        saveValue( getCodeKey(randomCode), randomCode, codeExpire);
+        return randomCode;
+    }
+
+    public boolean verifyCode(String code){
+        String verifyCode = getValue(getCodeKey(code));
+        return StringUtils.isNotBlank(verifyCode);
+    }
 
 
 }

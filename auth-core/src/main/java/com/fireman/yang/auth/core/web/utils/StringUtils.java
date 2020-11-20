@@ -1,6 +1,7 @@
 package com.fireman.yang.auth.core.web.utils;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author tongdong
@@ -8,6 +9,8 @@ import java.util.*;
  * @Description:
  */
 public class StringUtils {
+
+    private static final String BASE_STR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public static boolean hasText(String str) {
         if (!hasLength(str)) {
@@ -140,5 +143,21 @@ public class StringUtils {
             return result;
         }
         return Collections.emptyList();
+    }
+
+    /**
+     * 定义一个获取随机验证码的方法(大小写字母，数字)
+     * @param n
+     * @return
+     */
+    public static String randomCode(int n) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < n; i++) {
+            ThreadLocalRandom current = ThreadLocalRandom.current();
+            int index = current.nextInt(BASE_STR.length());
+            char ch = BASE_STR.charAt(index);
+            sb.append(ch);
+        }
+        return sb.toString();
     }
 }

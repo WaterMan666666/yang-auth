@@ -1,10 +1,7 @@
 package com.fireman.yang.auth.core.server.support;
 
-import com.fireman.yang.auth.core.common.ThreadContext;
-import com.fireman.yang.auth.core.common.constants.AuthConstants;
 import com.fireman.yang.auth.core.common.enums.ResponseType;
-import com.fireman.yang.auth.core.exception.SystemErrorException;
-import com.fireman.yang.auth.core.server.AuthorizeCodeFactory;
+import com.fireman.yang.auth.core.server.AuthorizeCodeService;
 import com.fireman.yang.auth.core.server.dto.AppClientDTO;
 import com.fireman.yang.auth.core.server.dto.AuthorizeDTO;
 import com.fireman.yang.auth.core.web.utils.CollectionUtils;
@@ -13,9 +10,6 @@ import com.fireman.yang.auth.core.web.utils.url.UrlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +25,12 @@ public class CodeResponseTypeProcessor extends ResponseTypeProcessor {
 
     private String loginUri;
 
-    public CodeResponseTypeProcessor(String loginUri, AuthorizeCodeFactory authorizeCodeFactory) {
+    public CodeResponseTypeProcessor(String loginUri, AuthorizeCodeService authorizeCodeFactory) {
         this.loginUri = loginUri;
         this.authorizeCodeFactory = authorizeCodeFactory;
     }
 
-    private AuthorizeCodeFactory authorizeCodeFactory;
+    private AuthorizeCodeService authorizeCodeFactory;
     @Override
     public boolean isTypeMatch(ResponseType responseType) {
         return responseType == ResponseType.code;

@@ -6,6 +6,7 @@ import com.fireman.yang.auth.core.login.LoginTokenFactory;
 import com.fireman.yang.auth.core.login.LoginTokenProcessor;
 import com.fireman.yang.auth.core.login.PwdTokenProcessor;
 import com.fireman.yang.auth.core.server.AuthSsoServerManager;
+import com.fireman.yang.auth.core.server.AuthorizeCodeService;
 import com.fireman.yang.auth.core.server.support.ServerSessionDao;
 import com.fireman.yang.auth.core.server.config.AuthServerConfig;
 import com.fireman.yang.auth.core.server.service.AuthServerCoreService;
@@ -60,15 +61,19 @@ public class AuthServerBootConfigruation {
     }
 
     @Bean
-    public AuthSsoServerManager clientManager(AuthServerConfig config){
-        return new DefaultAuthSsoServerManager(config.getScop(), config.getSessionTokenProcessors(),
-                config.getLoginTokenProcessors(), config.getSessionFactory(), config.getSessionTokenFactory(),
-                config.getSessionDao());
+    public AuthSsoServerManager authSsoServerManager(AuthServerConfig config,
+                                              List<SessionTokenProcessor> sessionTokenProcessors,
+                                              List<LoginTokenProcessor> loginTokenProcessors,
+                                              SessionFactory sessionFactory,
+                                              SessionTokenFactory sessionTokenFactory,
+                                              ServerSessionDao sessionDao){
+        return new DefaultAuthSsoServerManager(config.getScop(), sessionTokenProcessors,
+                loginTokenProcessors, sessionFactory, sessionTokenFactory, sessionDao);
     }
 
     @Bean
-    @ConditionalOnMissingBean(DefaultSessionTokenFactory.class)
-    public DefaultSessionTokenFactory sessionTokenFactory(){
+    @ConditionalOnMissingBean(SessionTokenFactory.class)
+    public SessionTokenFactory sessionTokenFactory(){
         return new DefaultSessionTokenFactory("authServer");
     }
 
@@ -109,12 +114,18 @@ public class AuthServerBootConfigruation {
     }
 
     @Bean
+    public AuthorizeCodeService authorizeCodeService(ServerSessionDao sessionDao){
+        return new DefaultAuthorizeCodeService(sessionDao);
+    }
+
+
+    @Bean
     public ServerSessionDao sessionDao(AuthServerConfigruationProperties authProperties){
-        return new DefaultLocalServerSessionDao(authProperties.getSessionExpire());
+        return new DefaultLocalServerSessionDao(authProperties.getSessionExpire(), authProperties.getSessionExpire());
     }
 
     @Bean
-    public AuthServerConfig authClientConfig(AuthServerConfigruationProperties authProperties,
+    public AuthServerConfig authServerConfig(AuthServerConfigruationProperties authProperties,
                                              List<SessionTokenProcessor> sessionTokenProcessors,
                                              List<LoginTokenProcessor> loginTokenProcessors,
                                              SessionFactory sessionFactory,

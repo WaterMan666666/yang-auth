@@ -32,6 +32,9 @@ public class AuthServerConfigruationProperties {
     /** session超时时间 */
     private Integer sessionExpire;
 
+    /** code超时时间 */
+    private Integer codeExpire;
+
     /** 用户文件信息 */
     private String infoBasePath;
 
@@ -56,6 +59,9 @@ public class AuthServerConfigruationProperties {
         }
         if(sessionExpire == null || sessionExpire == 0){
             sessionExpire = AuthConstants.SESSION_EXPIRE_DEFAULT;
+        }
+        if(codeExpire == null || codeExpire == 0){
+            codeExpire = AuthConstants.CODE_EXPIRE_DEFAULT;
         }
     }
 
@@ -116,5 +122,13 @@ public class AuthServerConfigruationProperties {
 
     public void setLoginUri(String loginUri) {
         this.loginUri = loginUri;
+    }
+
+    public Integer getCodeExpire() {
+        return codeExpire;
+    }
+
+    public void setCodeExpire(Integer codeExpire) {
+        this.codeExpire = codeExpire;
     }
 }

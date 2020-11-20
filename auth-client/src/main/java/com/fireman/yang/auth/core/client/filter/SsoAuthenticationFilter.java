@@ -4,6 +4,7 @@ import com.fireman.yang.auth.core.client.AuthClientManager;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.handler.UnAuthenticateHandler;
 
+import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,5 +27,12 @@ public class SsoAuthenticationFilter extends AuthenticationFilter {
     @Override
     protected void unAuthenticate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         handler.handler(request, response);
+    }
+
+    @Override
+    protected void dealLoginGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) {
+        //执行登录的逻辑
+        //登录页的请求,执行原始的Filter,放行
+        continueOriginChain(filterChain);
     }
 }

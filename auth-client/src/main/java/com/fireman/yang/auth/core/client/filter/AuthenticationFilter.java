@@ -1,6 +1,8 @@
 package com.fireman.yang.auth.core.client.filter;
 
 import com.fireman.yang.auth.core.client.AuthClientManager;
+import com.fireman.yang.auth.core.common.enums.ReturnCode;
+import com.fireman.yang.auth.core.exception.SystemErrorException;
 import com.fireman.yang.auth.core.session.Session;
 import com.fireman.yang.auth.core.session.SessionToken;
 import com.fireman.yang.auth.core.session.SessionTokenFactory;
@@ -93,25 +95,38 @@ public class AuthenticationFilter extends AbstractPathFilter {
     }
 
 
-    protected void dealLogin(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException {
+    protected void dealLogin(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse, FilterChain filterChain) {
         String method = httpServletRequest.getMethod();
          RequestMethod requestMethod = RequestMethod.toEnum(method);
         if(requestMethod != null) {
             switch (requestMethod){
                 case GET:
-                    //登录页的请求,执行原始的Filter,放行
-                    continueOriginChain(filterChain);
+                    dealLoginGet(httpServletRequest, httpServletResponse, filterChain);
                     break;
                 case POST:
-                    LoginToken loginToken = loginTokenFactory.generateLoginToken();
-                    SessionToken sessionToken = clientManager.login(loginToken);
-                    sessionToken.afterLogin(httpServletRequest, httpServletResponse);
-                    continueChain(httpServletRequest, false);
+                    dealLoginPost(httpServletRequest, httpServletResponse, filterChain);
                     break;
                 default:
                     continueChain(httpServletRequest, false);
             }
         }
+    }
+
+    protected void dealLoginPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) {
+        dealLoginPost(httpServletRequest, httpServletResponse, filterChain);
+        LoginToken loginToken = loginTokenFactory.generateLoginToken();
+        SessionToken sessionToken = clientManager.login(loginToken);
+        try {
+            sessionToken.afterLogin(httpServletRequest, httpServletResponse);
+        } catch (IOException e) {
+            throw new SystemErrorException(ReturnCode.SYSTEM_ERROR.getMsg() , e);
+        }
+        continueChain(httpServletRequest, false);
+    }
+
+    protected void dealLoginGet(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse, FilterChain filterChain) {
+        //登录页的请求,执行原始的Filter,放行
+        continueOriginChain(filterChain);
     }
 
 }

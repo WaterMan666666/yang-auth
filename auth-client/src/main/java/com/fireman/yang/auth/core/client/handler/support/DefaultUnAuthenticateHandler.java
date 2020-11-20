@@ -37,7 +37,7 @@ public class DefaultUnAuthenticateHandler implements UnAuthenticateHandler {
         map.put("responseType","code");
         map.put("clientId", clientId);
         map.put("redirectUri", loginUri);
-        response.setStatus(ReturnCode.UNLOGIN.getCode());
+        response.setStatus(ReturnCode.UNAUTHORIZED.getCode());
         responseOutWithJson(response, map);
     }
 

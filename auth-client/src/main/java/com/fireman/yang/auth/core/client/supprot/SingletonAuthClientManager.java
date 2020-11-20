@@ -3,7 +3,12 @@ package com.fireman.yang.auth.core.client.supprot;
 import com.fireman.yang.auth.core.User;
 import com.fireman.yang.auth.core.client.config.AuthClientConfig;
 import com.fireman.yang.auth.core.client.dao.DefaultLocalSessionDao;
+import com.fireman.yang.auth.core.client.session.ClientSessionDao;
+import com.fireman.yang.auth.core.login.LoginTokenProcessor;
 import com.fireman.yang.auth.core.server.AuthServerManager;
+import com.fireman.yang.auth.core.session.SessionFactory;
+import com.fireman.yang.auth.core.session.SessionTokenFactory;
+import com.fireman.yang.auth.core.session.SessionTokenProcessor;
 
 import java.util.List;
 
@@ -16,10 +21,14 @@ import java.util.List;
 public class SingletonAuthClientManager extends AbstractAuthClientManager implements AuthServerManager {
 
 
-    public SingletonAuthClientManager(AuthClientConfig config) {
-        super(config.getScop(), config.getSessionTokenProcessors(), config.getLoginTokenProcessors(),
-                config.getSessionFactory(), config.getSessionTokenFactory(),
-                config.getSessionDao());
+    public SingletonAuthClientManager(AuthClientConfig config, List<SessionTokenProcessor> sessionTokenProcessors,
+                                      List<LoginTokenProcessor> loginTokenProcessors,
+                                      SessionFactory sessionFactory,
+                                      SessionTokenFactory sessionTokenFactory,
+                                      ClientSessionDao sessionDao) {
+        super(config.getScop(), sessionTokenProcessors, loginTokenProcessors,
+                sessionFactory, sessionTokenFactory,
+                sessionDao);
     }
 
     @Override

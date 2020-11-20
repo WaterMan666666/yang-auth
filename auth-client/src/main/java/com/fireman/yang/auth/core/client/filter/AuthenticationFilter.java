@@ -29,13 +29,12 @@ import java.io.IOException;
  */
 public class AuthenticationFilter extends AbstractPathFilter {
 
-    public AuthenticationFilter(AuthClientConfig config, AuthClientManager clientManager) {
+    public AuthenticationFilter(AuthClientConfig config, AuthClientManager clientManager, SessionTokenFactory sessionTokenFactory, LoginTokenFactory loginTokenFactory) {
         super(AuthFilterEnum.auth.name());
         this.loginUrl = config.getLoginUri();
         this.clientManager = clientManager;
-        this.sessionTokenFactory = config.getSessionTokenFactory();
-        this.sessionTokenFactory = config.getSessionTokenFactory();
-        this.loginTokenFactory = config.getLoginTokenFactory();
+        this.sessionTokenFactory = sessionTokenFactory;
+        this.loginTokenFactory = loginTokenFactory;
     }
 
     private String loginUrl;
@@ -113,7 +112,6 @@ public class AuthenticationFilter extends AbstractPathFilter {
     }
 
     protected void dealLoginPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) {
-        dealLoginPost(httpServletRequest, httpServletResponse, filterChain);
         LoginToken loginToken = loginTokenFactory.generateLoginToken();
         SessionToken sessionToken = clientManager.login(loginToken);
         try {

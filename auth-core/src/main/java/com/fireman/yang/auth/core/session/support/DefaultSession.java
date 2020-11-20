@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultSession implements Session {
 
-    Map<String ,Object> map = new ConcurrentHashMap<>();
+    private Map<String ,Object> map = new ConcurrentHashMap<>();
 
 
     @Override

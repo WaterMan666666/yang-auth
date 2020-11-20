@@ -99,40 +99,44 @@ public class AuthClientBootConfigruation {
 
     @Bean
     @ConditionalOnMissingBean(SingletonClientSessionDao.class)
-    @Conditional(SingleModelConditional.class)
-    public SingletonClientSessionDao singletonClientSessionDao(AuthClientConfigruationProperties authProperties){
+//    @Conditional(SingleModelConditional.class)
+    public ClientSessionDao singletonClientSessionDao(AuthClientConfigruationProperties authProperties){
         return new DefaultLocalSessionDao(authProperties.getClientId(), authProperties.getSessionExpire());
     }
 
     @Bean
-    public AuthClientConfig authClientConfig(AuthClientConfigruationProperties authProperties,
-                                             ClientSessionDao sessionDao,
-                                             List<SessionTokenProcessor> sessionTokenProcessors,
-                                             List<LoginTokenProcessor> loginTokenProcessors,
-                                             SessionFactory sessionFactory,
-                                             LoginTokenFactory loginTokenFactory,
-                                             SessionTokenFactory sessionTokenFactory
+    public AuthClientConfig authClientConfig(AuthClientConfigruationProperties authProperties
     ){
        return new AuthClientConfig(authProperties.getFilters(), authProperties.getMapping(),
-               sessionDao, LoginScop.toEnum(authProperties.getScop()),
+               LoginScop.toEnum(authProperties.getScop()),
                authProperties.getSessionExpire(), authProperties.getClientId(),authProperties.getClientSecret(),
-               sessionTokenProcessors, loginTokenProcessors, sessionFactory,
-               sessionTokenFactory, loginTokenFactory, authProperties.getLoginUri(),
-               authProperties.authTokenUri, authProperties.authDomain);
+               authProperties.getLoginUri(), authProperties.authTokenUri, authProperties.authDomain);
     }
 
     @Bean
     @ConditionalOnMissingBean(AuthClientManager.class)
-    public AuthClientManager authClientManager(AuthClientConfig config){
-        return new SingletonAuthClientManager(config);
+    public AuthClientManager authClientManager(AuthClientConfig config, List<SessionTokenProcessor> sessionTokenProcessors,
+                                               List<LoginTokenProcessor> loginTokenProcessors,
+                                               SessionFactory sessionFactory,
+                                               SessionTokenFactory sessionTokenFactory,
+                                               ClientSessionDao sessionDao){
+        return new SingletonAuthClientManager(config, sessionTokenProcessors, loginTokenProcessors, sessionFactory, sessionTokenFactory, sessionDao);
     }
 
 
     @Bean
     @ConditionalOnMissingBean(UnAuthenticateHandler.class)
-    @ConditionalOnBean(SsoAuthenticationFilter.class)
+    @ConditionalOnProperty(value = "model",prefix = "yang.auth.client", havingValue = "sso")
     public UnAuthenticateHandler unAuthenticateHandler(AuthClientConfig config){
         return new DefaultUnAuthenticateHandler(config.getClientId(), config.getLoginUri());
+    }
+
+    @Bean(name = "auth")
+    @ConditionalOnProperty(value = "model",prefix = "yang.auth.client", havingValue = "sso")
+    @ConditionalOnMissingBean(AuthenticationFilter.class)
+    @ConditionalOnBean(AuthClientManager.class)
+    public SsoAuthenticationFilter ssoAuthenticationFilter(AuthClientConfig config, SessionTokenFactory sessionTokenFactory, LoginTokenFactory loginTokenFactory, AuthClientManager authClientManager, UnAuthenticateHandler handler){
+        return new SsoAuthenticationFilter(config, sessionTokenFactory, loginTokenFactory, authClientManager, handler);
     }
 
     @Bean
@@ -156,13 +160,6 @@ public class AuthClientBootConfigruation {
         return new DefaultClientSsoService(config);
     }
 
-    @Bean(name = "auth")
-    @ConditionalOnProperty(value = "enable",prefix = "yang.auth.client.model", havingValue = "sso")
-    @ConditionalOnMissingBean(AuthenticationFilter.class)
-    @ConditionalOnBean(AuthClientManager.class)
-    public SsoAuthenticationFilter ssoAuthenticationFilter(AuthClientConfig config, AuthClientManager authClientManager, UnAuthenticateHandler handler){
-        return new SsoAuthenticationFilter(config, authClientManager, handler);
-    }
 
 
 }

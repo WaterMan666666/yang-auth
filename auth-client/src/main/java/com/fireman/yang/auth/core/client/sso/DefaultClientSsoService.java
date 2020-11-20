@@ -43,7 +43,7 @@ public class DefaultClientSsoService implements ClientSsoService {
         params.put("code", token.getCode());
         params.put("client_id", config.getClientId());
         params.put("client_secret", config.getClientSecret());
-        HttpUrl httpUrl = HttpUrl.parse(config.getAuthDomain());
+        HttpUrl httpUrl = HttpUrl.parse(config.getAuthTokenUri() + config.getAuthDomain());
         HttpUrl.Builder builder = httpUrl.newBuilder();
         builder.addEncodedPathSegment(config.getAuthTokenUri());
         HttpUrl build = builder.build();

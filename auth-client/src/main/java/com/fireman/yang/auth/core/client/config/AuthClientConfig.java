@@ -18,24 +18,15 @@ import java.util.Map;
  */
 public class AuthClientConfig {
 
-    public AuthClientConfig(List<String> filters, Map<String, List<String>> mapping, ClientSessionDao sessionDao,
+    public AuthClientConfig(List<String> filters, Map<String, List<String>> mapping,
                             LoginScop scop, Integer sessionExpire, String clientId, String clientSecret,
-                            List<SessionTokenProcessor> sessionTokenProcessors,
-                            List<LoginTokenProcessor> loginTokenProcessors, SessionFactory sessionFactory,
-                            SessionTokenFactory sessionTokenFactory, LoginTokenFactory loginTokenFactory,
                             String loginUri, String authDomain, String authTokenUri) {
         this.filters = filters;
         this.mapping = mapping;
-        this.sessionDao = sessionDao;
         this.scop = scop;
         this.sessionExpire = sessionExpire;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
-        this.sessionTokenProcessors = sessionTokenProcessors;
-        this.loginTokenProcessors = loginTokenProcessors;
-        this.sessionFactory = sessionFactory;
-        this.sessionTokenFactory = sessionTokenFactory;
-        this.loginTokenFactory = loginTokenFactory;
         this.loginUri = loginUri;
         this.authDomain = authDomain;
         this.authTokenUri = authTokenUri;
@@ -45,8 +36,6 @@ public class AuthClientConfig {
 
     private Map<String, List<String>> mapping;
 
-    private ClientSessionDao sessionDao;
-
     private LoginScop scop;
 
     private Integer sessionExpire;
@@ -55,29 +44,11 @@ public class AuthClientConfig {
 
     private String clientSecret;
 
-    private List<SessionTokenProcessor> sessionTokenProcessors;
-
-    private List<LoginTokenProcessor> loginTokenProcessors;
-
-    private SessionFactory sessionFactory;
-
-    private SessionTokenFactory sessionTokenFactory;
-
-    private LoginTokenFactory loginTokenFactory;
-
     private String loginUri;
 
     String authDomain;
 
     String authTokenUri;
-
-    public ClientSessionDao getSessionDao() {
-        return sessionDao;
-    }
-
-    public void setSessionDao(ClientSessionDao sessionDao) {
-        this.sessionDao = sessionDao;
-    }
 
     public LoginScop getScop() {
         return scop;
@@ -103,38 +74,6 @@ public class AuthClientConfig {
         this.clientId = clientId;
     }
 
-    public List<SessionTokenProcessor> getSessionTokenProcessors() {
-        return sessionTokenProcessors;
-    }
-
-    public void setSessionTokenProcessors(List<SessionTokenProcessor> sessionTokenProcessors) {
-        this.sessionTokenProcessors = sessionTokenProcessors;
-    }
-
-    public List<LoginTokenProcessor> getLoginTokenProcessors() {
-        return loginTokenProcessors;
-    }
-
-    public void setLoginTokenProcessors(List<LoginTokenProcessor> loginTokenProcessors) {
-        this.loginTokenProcessors = loginTokenProcessors;
-    }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public SessionTokenFactory getSessionTokenFactory() {
-        return sessionTokenFactory;
-    }
-
-    public void setSessionTokenFactory(SessionTokenFactory sessionTokenFactory) {
-        this.sessionTokenFactory = sessionTokenFactory;
-    }
-
     public List<String> getFilters() {
         return filters;
     }
@@ -149,14 +88,6 @@ public class AuthClientConfig {
 
     public void setMapping(Map<String, List<String>> mapping) {
         this.mapping = mapping;
-    }
-
-    public LoginTokenFactory getLoginTokenFactory() {
-        return loginTokenFactory;
-    }
-
-    public void setLoginTokenFactory(LoginTokenFactory loginTokenFactory) {
-        this.loginTokenFactory = loginTokenFactory;
     }
 
     public String getLoginUri() {
